@@ -11,5 +11,6 @@
   "/market-insights/page": "/market-insights",
   "/page": "/",
   "/privacy/page": "/privacy",
-  "/reviews/page": "/reviews"
+  "/reviews/page": "/reviews",
+  "/studio/[[...tool]]/page": "/studio/[[...tool]]"
 }

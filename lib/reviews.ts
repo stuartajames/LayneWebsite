@@ -47,19 +47,19 @@ export async function getReviews(
     const data = await res.json()
     const reviews: Review[] = (data.Results ?? []).map(
       (r: {
-        ReferenceId: string
-        ReviewerName: string
-        StarRating: number
-        Description: string
+        ReviewCode: { Code: string | null; Number: number } | null
+        ReviewerName: string | null
+        StarRating: number | null
+        Description: string | null
         ReviewedOn: string
         IsRecommended: boolean
-        ReviewUrl?: string
+        ReviewUrl: string | null
       }) => ({
-        id: r.ReferenceId,
+        id: r.ReviewCode?.Code ?? String(r.ReviewCode?.Number ?? ''),
         source: 'ratemyagent' as const,
-        author: r.ReviewerName,
-        rating: r.StarRating,
-        body: r.Description,
+        author: r.ReviewerName ?? 'Anonymous',
+        rating: r.StarRating ?? 0,
+        body: r.Description ?? '',
         date: r.ReviewedOn.split('T')[0],
         isRecommended: r.IsRecommended,
         reviewUrl: r.ReviewUrl ?? undefined,

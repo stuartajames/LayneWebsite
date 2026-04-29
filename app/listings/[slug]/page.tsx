@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { MOCK_LISTINGS } from '@/lib/mockData'
+import { getListings } from '@/lib/listings'
 import { CopyLinkButton } from '@/components/listings/CopyLinkButton'
 
-export function generateStaticParams() {
-  return MOCK_LISTINGS.map((l) => ({ slug: l.slug }))
+export async function generateStaticParams() {
+  const listings = await getListings()
+  return listings.map((l) => ({ slug: l.slug }))
 }
 
 export async function generateMetadata({
@@ -14,7 +15,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const listing = MOCK_LISTINGS.find((l) => l.slug === slug)
+  const listings = await getListings()
+  const listing = listings.find((l) => l.slug === slug)
   if (!listing) return {}
   return {
     title: `${listing.address.street}, ${listing.address.suburb}`,
@@ -42,7 +44,8 @@ export default async function ListingDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const listing = MOCK_LISTINGS.find((l) => l.slug === slug)
+  const listings = await getListings()
+  const listing = listings.find((l) => l.slug === slug)
   if (!listing) notFound()
 
   const { address, status, priceDisplay, bedrooms, bathrooms, carSpaces, description, inspections, images } = listing

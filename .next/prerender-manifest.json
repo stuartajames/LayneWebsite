@@ -152,7 +152,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/listings/15-awarua-street-ngaio": {
+    "/listings/36-bathgate-st": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -166,55 +166,7 @@
       ],
       "initialRevalidateSeconds": false,
       "srcRoute": "/listings/[slug]",
-      "dataRoute": "/listings/15-awarua-street-ngaio.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/listings/42-broderick-road-johnsonville": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/listings/[slug]",
-      "dataRoute": "/listings/42-broderick-road-johnsonville.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/listings/8-khandallah-road-khandallah": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/listings/[slug]",
-      "dataRoute": "/listings/8-khandallah-road-khandallah.rsc",
+      "dataRoute": "/listings/36-bathgate-st.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",

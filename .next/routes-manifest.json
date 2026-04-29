@@ -29,6 +29,14 @@
         "nxtPslug": "nxtPslug"
       },
       "namedRegex": "^/listings/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/studio/[[...tool]]",
+      "regex": "^/studio(?:/(.+?))?(?:/)?$",
+      "routeKeys": {
+        "nxtPtool": "nxtPtool"
+      },
+      "namedRegex": "^/studio(?:/(?<nxtPtool>.+?))?(?:/)?$"
     }
   ],
   "staticRoutes": [

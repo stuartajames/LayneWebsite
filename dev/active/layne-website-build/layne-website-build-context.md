@@ -10,7 +10,7 @@ Last Updated: 2026-04-29
 - **Agency:** Harcourts (personal site — not an official Harcourts site)
 - **Market:** Wellington, NZ — northern suburbs
 - **Goal:** Personal brand site converting vendors and buyers into leads
-- **Domain:** `laynesaywellhughes.co.nz` (placeholder — real domain TBC)
+- **Domain:** `laynehughes.co.nz` (placeholder — real domain TBC)
 
 ---
 
@@ -38,7 +38,7 @@ Run from project root — it will scaffold over the Vite files.
 | Suburbs (12) | Broadmeadows, Churton Park, Glenside, Grenada North, Grenada Village, Johnsonville, Khandallah, Newlands, Ngaio, Raroa, Tawa, Wadestown |
 | Brand palette | Harcourts gold (confirm hex from harcourts.co.nz) + dark charcoal |
 | CMS manager | Developer (not Layne) |
-| Domain | `laynesaywellhughes.co.nz` placeholder — real domain TBC |
+| Domain | `laynehughes.co.nz` placeholder — real domain TBC |
 | Privacy law | NZ Privacy Act 2020 |
 
 ---
@@ -213,7 +213,7 @@ RESEND_API_KEY=
 LAYNE_EMAIL=
 
 # Site
-NEXT_PUBLIC_SITE_URL=https://laynesaywellhughes.co.nz
+NEXT_PUBLIC_SITE_URL=https://laynehughes.co.nz
 
 # Revalidation webhook
 REVALIDATE_SECRET=
@@ -223,7 +223,7 @@ REVALIDATE_SECRET=
 
 ## Open Items
 
-- [ ] Confirm real domain (placeholder `laynesaywellhughes.co.nz` in use)
+- [ ] Confirm real domain (placeholder `laynehughes.co.nz` in use)
 - [ ] Verify exact Harcourts gold hex from `harcourts.co.nz`
 - [ ] Layne to provide professional photos (hero + about)
 - [ ] Layne to provide bio copy and credentials

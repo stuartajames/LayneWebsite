@@ -256,11 +256,11 @@ async function getReviews(skip = 0, take = 6) {
         if (!res.ok) return null;
         const data = await res.json();
         const reviews = (data.Results ?? []).map((r)=>({
-                id: r.ReferenceId,
+                id: r.ReviewCode?.Code ?? String(r.ReviewCode?.Number ?? ''),
                 source: 'ratemyagent',
-                author: r.ReviewerName,
-                rating: r.StarRating,
-                body: r.Description,
+                author: r.ReviewerName ?? 'Anonymous',
+                rating: r.StarRating ?? 0,
+                body: r.Description ?? '',
                 date: r.ReviewedOn.split('T')[0],
                 isRecommended: r.IsRecommended,
                 reviewUrl: r.ReviewUrl ?? undefined

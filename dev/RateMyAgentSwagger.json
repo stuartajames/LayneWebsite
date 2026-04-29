@@ -1,0 +1,5073 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "RateMyAgent Developers API",
+    "termsOfService": "https://go.ratemyagent.com.au/api-licence-terms"
+  },
+  "paths": {
+    "/agency/{agencyCode}/sales/listings": {
+      "get": {
+        "tags": [
+          "Agency",
+          "Listings"
+        ],
+        "summary": "Returns the listings for the specified Agency",
+        "description": "This endpoint will return the listings for the specified Agency. The clients API Key must have appropriate permissions to access the specified Agency.",
+        "parameters": [
+          {
+            "name": "statuses",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "agencyCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/corporate/{agencyNetworkCode}/agencies": {
+      "get": {
+        "tags": [
+          "Corporate"
+        ],
+        "summary": "Returns a list of the agencies who are a part of this corporate network.",
+        "description": "Your API Key will need to have been given access to the corporate network being requested.",
+        "parameters": [
+          {
+            "name": "Code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Number",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "agencyNetworkCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgencyNetworkDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgencyNetworkDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgencyNetworkDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "502": {
+            "description": "Bad Gateway"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/{agencyCode}/profile": {
+      "get": {
+        "tags": [
+          "Agency"
+        ],
+        "summary": "Returns the profile details for the specified agency",
+        "description": "The endpoint returns the profile details for the specified agency. Your API Key will need to have been given access to the agent being requested. Unclaimed agencies will return a 404 unless you have a Corporate level API Key.",
+        "parameters": [
+          {
+            "name": "agencyCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgencyDetailModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgencyDetailModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgencyDetailModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/profiles": {
+      "get": {
+        "tags": [
+          "Agency"
+        ],
+        "summary": "Returns the profile details for the specified agencies",
+        "description": "The endpoint returns the profile details for the given list of agency codes. Your API Key will need to have been given access to the agencies being requested. Unclaimed agencies will not be included unless you have a Corporate level API Key.",
+        "parameters": [
+          {
+            "name": "agencyCodes",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgencyDetailModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgencyDetailModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgencyDetailModel"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/{agencyCode}/agents": {
+      "get": {
+        "tags": [
+          "Agency"
+        ],
+        "summary": "Returns a list of the active agents for the specified agency.",
+        "description": "The endpoint returns the profile details for the specified agency. Your API Key will need to have been given access to the agent being requested.",
+        "parameters": [
+          {
+            "name": "agencyCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgencyProfileAgentSummaryModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgencyProfileAgentSummaryModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgencyProfileAgentSummaryModel"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/agencycode": {
+      "get": {
+        "tags": [
+          "Agency"
+        ],
+        "summary": "Returns the RMA agency code",
+        "description": "The endpoint is used to exchange your external identifier for our primary key. In the case of an Agency we will send back the AgencyCode. Your API Key will need to have been given access to the agency being requested.",
+        "parameters": [
+          {
+            "name": "externalIdentifier",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/{agencyCode}/sales/reviews": {
+      "get": {
+        "tags": [
+          "Agency",
+          "Reviews"
+        ],
+        "summary": "Returns the Sales Reviews for the specified Agency",
+        "description": "This endpoint will return the Sales Reviews for the specified Agency. The clients API Key must have appropriate permissions to access the specified Agency.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "agencyCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/{agencyCode}/sales/consolidated-reviews": {
+      "get": {
+        "tags": [
+          "Agency",
+          "Reviews",
+          "Consolidated"
+        ],
+        "summary": "Returns the consolidated sales reviews (both RateMyAgent and External reviews) for the specified Agency",
+        "description": "This endpoint will return the consolidated sales reviews (both RateMyAgent and External reviews) for the specified Agency. The clients API Key must have appropriate permissions to access the specified Agency.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "agencyCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency/{agencyCode}/leasing/reviews": {
+      "get": {
+        "tags": [
+          "Agency",
+          "Reviews"
+        ],
+        "summary": "Returns the Leasing Reviews for the specified Agency",
+        "description": "This endpoint is only useful in specific circumstances, so only use when instructed. This endpoint will return the Leasing Reviews for the specified Agency. The clients API Key must have appropriate permissions to access the specified Agency.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "agencyCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeasingReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeasingReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeasingReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/{agentCode}/sales/listings": {
+      "get": {
+        "tags": [
+          "Agent",
+          "Listings"
+        ],
+        "summary": "Returns the Sales Listings for the specified agent",
+        "description": "This endpoint will return the Sales Listings for the specified Agent. The clients API Key must have appropriate permissions to access the specified agent.",
+        "parameters": [
+          {
+            "name": "statuses",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/{agentCode}/profile": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Returns the agent profile details for the specified agent",
+        "description": "The endpoint returns the profile details for the specified agent. Your API Key will need to have been given access to the agent being requested.",
+        "parameters": [
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/profiles": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Returns agent profiles for the given list of agent codes",
+        "description": "The endpoint returns the profile details for the given list of agent codes. Your API Key will need to have been given access to all agents being requested.",
+        "parameters": [
+          {
+            "name": "agentCodes",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgentDetailModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgentDetailModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgentDetailModel"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/{agentCode}/badges": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Returns the badges for the specified agent",
+        "description": "The endpoint returns the badge details for the specified agent. Your API Key will need to have been given access to the agent being requested.",
+        "parameters": [
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentBadgesModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentBadgesModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentBadgesModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/agent/agentcode": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Returns the RMA agent code",
+        "description": "The endpoint is used to exchange external identifiers (such as email address, or your primary keys) for our primary key. In the case of an agent we will send back the RateMyAgent AgentCode. Your API Key will need to have been given access to the agent being requested.",
+        "parameters": [
+          {
+            "name": "externalIdentifier",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "emailAddress",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/external/{encodedExternalIdentifier}": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "summary": "Returns an agent profile, their badges, and their reviews.",
+        "parameters": [
+          {
+            "name": "encodedExternalIdentifier",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/{agentCode}/sales/reviews": {
+      "get": {
+        "tags": [
+          "Agent",
+          "Reviews"
+        ],
+        "summary": "Returns the Sales Reviews for the specified agent",
+        "description": "This endpoint will return the Sales Reviews for the specified Agent. The clients API Key must have appropriate permissions to access the specified agent.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agent/{agentCode}/sales/consolidated-reviews": {
+      "get": {
+        "tags": [
+          "Agent",
+          "Reviews",
+          "Consolidated"
+        ],
+        "summary": "Returns the consolidated sales reviews (both RateMyAgent and external reviews) for the specified agent",
+        "description": "Only use this endpoint if you have been instructed to by RMA. This endpoint will return the consolidated sales reviews (both RateMyAgent and External reviews) for the specified Agent. The clients API Key must have appropriate permissions to access the specified agent.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/corporate/leasing/reviews": {
+      "get": {
+        "tags": [
+          "Corporate",
+          "Reviews"
+        ],
+        "summary": "Returns the Leasing Reviews for the entire corporate agency group",
+        "description": "This endpoint will return the Leasing Reviews for all agencies within the corporate group.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeasingReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeasingReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeasingReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/corporate/sales/reviews": {
+      "get": {
+        "tags": [
+          "Corporate",
+          "Reviews"
+        ],
+        "summary": "Returns the Sales Reviews for the entire corporate agency group",
+        "description": "This endpoint will return the Sales Reviews for all agencies within the corporate group.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/corporate/sales/consolidated-reviews": {
+      "get": {
+        "tags": [
+          "Corporate",
+          "Reviews",
+          "Consolidated"
+        ],
+        "summary": "Returns the  consolidated sales reviews (both RateMyAgent and External reviews) for the entire corporate agency group",
+        "description": "This endpoint will return the consolidated sales reviews (both RateMyAgent and External reviews) for all agencies within the corporate group.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidatedSalesReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/members": {
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Creates or updates Member information.",
+        "description": "This endpoint allows to upload Member information into RateMyAgent both for creation of a new member and update of an existing member.",
+        "parameters": [
+          {
+            "name": "Campaign-Source-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Member"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:agency-data",
+              "write:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/members/updateOnly": {
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Updates Member information. Will not create new members",
+        "description": "This endpoint allows uploading of Member information into RateMyAgent to update an existing member.",
+        "parameters": [
+          {
+            "name": "Campaign-Source-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Member"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:agency-data",
+              "write:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/members/organization": {
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Updates relationships between a member and their organization.",
+        "parameters": [
+          {
+            "name": "Campaign-Source-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberOrganizationRelationship"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:agency-data",
+              "write:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/mortgage-broker/{agentCode}/profile": {
+      "get": {
+        "tags": [
+          "Mortgage Broker"
+        ],
+        "summary": "Returns the mortgage broker profile details for the specified broker",
+        "description": "The endpoint returns the profile details for the specified mortgage broker. Your API Key will need to have been given access to the broker being requested.",
+        "parameters": [
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MortgageBrokerDetailModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MortgageBrokerDetailModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MortgageBrokerDetailModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/mortgage-broker/{agentCode}/reviews": {
+      "get": {
+        "tags": [
+          "Mortgage Broker",
+          "Reviews"
+        ],
+        "summary": "Returns the Reviews for the specified mortgage broker",
+        "description": "This endpoint will return the Reviews for the specified Mortgage Broker. The clients API Key must have appropriate permissions to access the specified broker.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "agentCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MortgageBrokerReviewModelResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MortgageBrokerReviewModelResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MortgageBrokerReviewModelResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/organizations": {
+      "post": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Uploads new/updated organization (office, team, agency).",
+        "description": "This endpoint allows uploading of organization information into RateMyAgent to create/update a corresponding organization entity.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:agency-data",
+              "write:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/organizations/updateOnly": {
+      "post": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Uploads updated organization (office, team, agency).",
+        "description": "This endpoint allows uploading of organization information into RateMyAgent to update a corresponding organization entity.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:agency-data",
+              "write:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/organizations/roster": {
+      "post": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Updates relationships for an organization and all its members.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationRoster"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:agency-data",
+              "write:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/{profileType}/{profileCode}/reviews": {
+      "get": {
+        "tags": [
+          "Agency",
+          "Agent",
+          "Mortgage Broker",
+          "Reviews"
+        ],
+        "summary": "Returns the Reviews for the specified profile.",
+        "description": "This endpoint will return the Reviews for the specified profile. The clients API Key must have appropriate permissions to access the specified profile. Profiles include Individual, Office and Team.",
+        "parameters": [
+          {
+            "name": "profileType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ProfileType"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "verticalType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/VerticalType"
+            }
+          },
+          {
+            "name": "profileCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewIPagedList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewIPagedList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewIPagedList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:agency-data",
+              "read:agent-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/agency-network/{networkCode}/survey-results": {
+      "get": {
+        "tags": [
+          "Agency network",
+          "Surveys"
+        ],
+        "summary": "Returns customer satisfaction surveys for the agency network",
+        "description": "This endpoint will return customer satisfaction surveys for the specified agency network. The client's API Key must have appropriate permissions to access the specified agency network.",
+        "parameters": [
+          {
+            "name": "networkCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "campaignSourceId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResultsModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResultsModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResultsModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "502": {
+            "description": "Bad Gateway"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/client-company/{clientCompanyId}/survey-results": {
+      "get": {
+        "tags": [
+          "SurveyResults"
+        ],
+        "parameters": [
+          {
+            "name": "clientCompanyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalSurveyResultsModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalSurveyResultsModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalSurveyResultsModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Campaigns/Listing/listingid": {
+      "get": {
+        "tags": [
+          "Listing"
+        ],
+        "summary": "Returns the RateMyAgent ListingId (guid) based on an external identifier.",
+        "description": "This endpoint allows you to exchange your external identifier for the RateMyAgent ListingId (guid). This is useful when you need to reference a listing in other API calls but only have your own external identifier.",
+        "parameters": [
+          {
+            "name": "externalIdentifier",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "read:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Campaigns/Listing/{listingId}/VendorDetails": {
+      "put": {
+        "tags": [
+          "VendorDetails",
+          "Listing",
+          "VendorDetails"
+        ],
+        "summary": "Creates or updates vendor/buyer details against a campaign.",
+        "parameters": [
+          {
+            "name": "listingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateVendorDetailsModel"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateVendorDetailsModel"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateVendorDetailsModel"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VendorDetailsModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VendorDetailsModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VendorDetailsModel"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:corporate-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/AddListing": {
+      "post": {
+        "tags": [
+          "Zapier"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZapierListingPayload"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZapierListingPayload"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZapierListingPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "write:zapier-data"
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/CheckConnection": {
+      "get": {
+        "tags": [
+          "Zapier"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              null
+            ]
+          },
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Address": {
+        "type": "object",
+        "properties": {
+          "UnitNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "StreetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "StreetName": {
+            "type": "string",
+            "nullable": true
+          },
+          "StreetSuffix": {
+            "type": "string",
+            "nullable": true
+          },
+          "StreetDirectionPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "StreetDirectionSuffix": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "nullable": true
+          },
+          "CountyOrParish": {
+            "type": "string",
+            "nullable": true
+          },
+          "StateAbbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "nullable": true
+          },
+          "PostalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "FullAddressText": {
+            "type": "string",
+            "nullable": true
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Type": {
+            "$ref": "#/components/schemas/AddressType"
+          },
+          "ModificationDateTimeUtc": {
+            "type": "string",
+            "description": "The date in UTC format when the address data was last modified.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressType": {
+        "enum": [
+          "Main",
+          "OfficeAddress",
+          "MailingAddress",
+          "Other"
+        ],
+        "type": "string"
+      },
+      "AgencyBrandingModel": {
+        "type": "object",
+        "properties": {
+          "CoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "BannerImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "BackgroundColour": {
+            "type": "string",
+            "nullable": true
+          },
+          "TextColour": {
+            "type": "string",
+            "nullable": true
+          },
+          "Logo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgencyDetailModel": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "RmaAgencyProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/AgencyBrandingModel"
+          },
+          "Summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgencyProfileTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsClaimed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "FacebookUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "TwitterUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "LinkedInUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "WebsiteUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "Markets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarketsModel"
+            },
+            "nullable": true
+          },
+          "OverallStars": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ReviewCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "LeasingReviewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SalesStatistics": {
+            "$ref": "#/components/schemas/SalesStatisticsModel"
+          },
+          "HasApiAccess": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgencyNetworkAgencyDto": {
+        "type": "object",
+        "properties": {
+          "AgencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgencyName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgencyNetworkDto": {
+        "type": "object",
+        "properties": {
+          "AgencyNetworkCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgencyNetworkAgencyDto"
+            },
+            "nullable": true
+          },
+          "AgencyNetworkName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ProfileId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgencyProfileAgentSummaryModel": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Mobile": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgencySummaryModel": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "RmaAgencyProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/AgencyBrandingModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Agent": {
+        "type": "object",
+        "properties": {
+          "last_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "commision_notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "is_assistant": {
+            "type": "boolean"
+          },
+          "first_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_listing_agent": {
+            "type": "boolean"
+          },
+          "Role": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_selling_agent": {
+            "type": "boolean"
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentAwardsModel": {
+        "type": "object",
+        "properties": {
+          "AwardType": {
+            "type": "string",
+            "nullable": true
+          },
+          "AwardName": {
+            "type": "string",
+            "nullable": true
+          },
+          "WinType": {
+            "type": "string",
+            "nullable": true
+          },
+          "RankedOutOf": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "WinningYears": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentBadgesModel": {
+        "type": "object",
+        "properties": {
+          "IsHighlyRecommended": {
+            "type": "boolean"
+          },
+          "IsGreatNegotiator": {
+            "type": "boolean"
+          },
+          "IsTrustedAgent": {
+            "type": "boolean"
+          },
+          "RepeatAwards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentAwardsModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentBrandingModel": {
+        "type": "object",
+        "properties": {
+          "CoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "BannerImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "BackgroundColour": {
+            "type": "string",
+            "nullable": true
+          },
+          "TextColour": {
+            "type": "string",
+            "nullable": true
+          },
+          "Photo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentDetailModel": {
+        "type": "object",
+        "properties": {
+          "AgentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "RmaAgentProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "WebsiteUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgencyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "FacebookUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "TwitterUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "LinkedInUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "Markets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarketsModel"
+            },
+            "nullable": true
+          },
+          "OverallStars": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "SalesStatistics": {
+            "$ref": "#/components/schemas/SalesStatisticsModel"
+          },
+          "HasApiAccess": {
+            "type": "boolean"
+          },
+          "IsAwardWinner": {
+            "type": "boolean"
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/AgentBrandingModel"
+          },
+          "AgentProfileTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentListingSummaryModel": {
+        "type": "object",
+        "properties": {
+          "AgentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "RmaAgentProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Photo": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgentType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentModel": {
+        "type": "object",
+        "properties": {
+          "Agent": {
+            "$ref": "#/components/schemas/AgentDetailModel"
+          },
+          "Reviews": {
+            "$ref": "#/components/schemas/SalesReviewModelResults"
+          },
+          "Badges": {
+            "$ref": "#/components/schemas/AgentBadgesModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentReviewSummaryModel": {
+        "type": "object",
+        "properties": {
+          "AgentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "RmaAgentProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/AgentBrandingModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Branding": {
+        "type": "object",
+        "properties": {
+          "ProfileImageUrl": {
+            "type": "string",
+            "description": "URL to the main image used as an avatar.",
+            "nullable": true
+          },
+          "BannerImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "CoverImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "BackgroundColor": {
+            "type": "string",
+            "description": "Background color in HEX format. For example #FFEEDD.",
+            "nullable": true
+          },
+          "TextColor": {
+            "type": "string",
+            "description": "Text color in HEX format. For example #FFEEDD.",
+            "nullable": true
+          },
+          "ModificationDateTimeUtc": {
+            "type": "string",
+            "description": "The date in UTC format when the branding data was last modified.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Buyer": {
+        "type": "object",
+        "properties": {
+          "fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Company": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "creator__user__email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Role": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "added_on": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConsolidatedSalesReviewModel": {
+        "type": "object",
+        "properties": {
+          "ReferenceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsRecommended": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "IsLinked": {
+            "type": "boolean"
+          },
+          "StarRating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ReviewExpiry": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "PropertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "PropertyCoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bedrooms": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Bathrooms": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Carparks": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ResultPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "StreetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "Suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          },
+          "Postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Coordinates": {
+            "$ref": "#/components/schemas/CoordinateModel"
+          },
+          "ReviewResponse": {
+            "$ref": "#/components/schemas/ReviewResponse"
+          },
+          "Agent": {
+            "$ref": "#/components/schemas/AgentReviewSummaryModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConsolidatedSalesReviewModelResults": {
+        "type": "object",
+        "properties": {
+          "Results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsolidatedSalesReviewModel"
+            },
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Take": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Skip": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "Fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Company": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "creator__user__email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Role": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "added_on": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CoordinateModel": {
+        "type": "object",
+        "properties": {
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateVendorDetailsModel": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "$ref": "#/components/schemas/ReviewerType"
+          },
+          "Mobile": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExternalIdentifierTypes": {
+        "enum": [
+          "GenericId",
+          "MlsId",
+          "MlsKey",
+          "Alias",
+          "NetworkId"
+        ],
+        "type": "string"
+      },
+      "GlobalSurveyDetails": {
+        "type": "object",
+        "properties": {
+          "FirstSentDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ScoreRecordedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Stars": {
+            "type": "string",
+            "nullable": true
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text": {
+            "type": "string",
+            "nullable": true
+          },
+          "Feedback": {
+            "type": "string",
+            "nullable": true
+          },
+          "ServiceProviderName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ServiceProviderCompany": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "$ref": "#/components/schemas/ReviewerType"
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          },
+          "ConsumerOptedOut": {
+            "type": "boolean"
+          },
+          "ExternalReferences": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GlobalSurveyResultsModel": {
+        "type": "object",
+        "properties": {
+          "SurveyDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GlobalSurveyDetails"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Identifier": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string",
+            "description": "The identifier used for the source system.",
+            "nullable": true
+          },
+          "SourceSystemId": {
+            "type": "string",
+            "description": "The unique identifier in your system used to identify the source system. For example the id in your system for a MLS (MLS-001).",
+            "nullable": true
+          },
+          "SourceSystemName": {
+            "type": "string",
+            "description": "The name of the source system for this identifier. For example a MLS name (ABC MLS).",
+            "nullable": true
+          },
+          "ExternalIdentifierType": {
+            "$ref": "#/components/schemas/ExternalIdentifierTypes"
+          }
+        },
+        "additionalProperties": false,
+        "description": "An entity may have identifiers in other systems. The identifier is used to uniquely identify the entity in the source system."
+      },
+      "LeasingReviewModel": {
+        "type": "object",
+        "properties": {
+          "ReviewCode": {
+            "$ref": "#/components/schemas/ReviewCode"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewedOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsRecommended": {
+            "type": "boolean"
+          },
+          "StarRating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ReviewExpiry": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "PropertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "PropertyCoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bedrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Bathrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Carparks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ResultPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "StreetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "Suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          },
+          "Postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Coordinates": {
+            "$ref": "#/components/schemas/CoordinateModel"
+          },
+          "ReviewResponse": {
+            "$ref": "#/components/schemas/ReviewResponse"
+          },
+          "Agency": {
+            "$ref": "#/components/schemas/AgencySummaryModel"
+          },
+          "Profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewProfile"
+            },
+            "description": "All Profiles associated with this review.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LeasingReviewModelResults": {
+        "type": "object",
+        "properties": {
+          "Results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeasingReviewModel"
+            },
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Take": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Skip": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Licence": {
+        "type": "object",
+        "properties": {
+          "LicenceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "LicenceForName": {
+            "type": "string",
+            "nullable": true
+          },
+          "LocationAbbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "LicenceType": {
+            "type": "string",
+            "nullable": true
+          },
+          "IssueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ExpiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Scope": {
+            "$ref": "#/components/schemas/LicenceScope"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LicenceScope": {
+        "enum": [
+          "Local",
+          "National"
+        ],
+        "type": "string"
+      },
+      "ListingImageModel": {
+        "type": "object",
+        "properties": {
+          "Type": {
+            "type": "string",
+            "nullable": true
+          },
+          "Url": {
+            "type": "string",
+            "nullable": true
+          },
+          "Order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListingModel": {
+        "type": "object",
+        "properties": {
+          "Agency": {
+            "$ref": "#/components/schemas/AgencySummaryModel"
+          },
+          "Images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListingImageModel"
+            },
+            "nullable": true
+          },
+          "PropertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "PropertyCoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bedrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Bathrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Carparks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Price": {
+            "type": "string",
+            "nullable": true
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "StreetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "Suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          },
+          "Postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Coordinates": {
+            "$ref": "#/components/schemas/CoordinateModel"
+          },
+          "Status": {
+            "type": "string",
+            "nullable": true
+          },
+          "ResultDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ResultMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentListingSummaryModel"
+            },
+            "nullable": true
+          },
+          "ListingTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ListingUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "CampaignCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "AuctionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListingModelResults": {
+        "type": "object",
+        "properties": {
+          "Results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListingModel"
+            },
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Take": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Skip": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarketsModel": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Member": {
+        "required": [
+          "ModificationDateTimeUtc",
+          "Status",
+          "VerticalType"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string",
+            "description": "The unique identifier for the member in your system.",
+            "nullable": true
+          },
+          "OtherIdentifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Identifier"
+            },
+            "description": "A list of identifiers for the member in other systems. For example it could be MLS ID, TMS ID etc.",
+            "nullable": true
+          },
+          "Status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "FirstName": {
+            "type": "string",
+            "description": "The first name of the member.",
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "description": "The last name of the member.",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "description": "The email address of the member.",
+            "nullable": true
+          },
+          "Mobile": {
+            "type": "string",
+            "description": "The mobile phone number of the member.",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "description": "The phone number of the member.",
+            "nullable": true
+          },
+          "Licences": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Licence"
+            },
+            "description": "List of licences that the member has.",
+            "nullable": true
+          },
+          "RateMyAgentRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RateMyAgentRole"
+            },
+            "description": "The roles the member has in RateMyAgent.",
+            "nullable": true
+          },
+          "VerticalType": {
+            "$ref": "#/components/schemas/VerticalType"
+          },
+          "Summary": {
+            "type": "string",
+            "description": "Summary information about member that is displayed in RateMyAgent.",
+            "nullable": true
+          },
+          "PromotionalVideoUrl": {
+            "type": "string",
+            "description": "Promotional video full URL. For example https://www.youtube.com/watch?v=ABC1234def.",
+            "nullable": true
+          },
+          "SocialMediaLinks": {
+            "$ref": "#/components/schemas/SocialMediaLinks"
+          },
+          "Languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of languages. Values must be from list of ISO Language Names based on ISO 639-1 https://www.iso.org/standard/22109.html. You can find a list on Wikipedia but it may not be up to date https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes.",
+            "nullable": true
+          },
+          "Specialities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Collection of specialities that the member may have.",
+            "nullable": true
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/Branding"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "ModificationDateTimeUtc": {
+            "type": "string",
+            "description": "The date in UTC format when the member data was last modified.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Member represents person while specific roles are set as a <see cref=\"T:RMA.Developers.Models.Agents.Enums.MemberRole\">relation(s)</see> between Member and Organisation"
+      },
+      "MemberOrganizationRelationship": {
+        "type": "object",
+        "properties": {
+          "MemberId": {
+            "type": "string",
+            "description": "The unique identifier for the member in your system.",
+            "nullable": true
+          },
+          "OrganizationId": {
+            "type": "string",
+            "description": "The unique identifier for the organization in your system.",
+            "nullable": true
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberRole"
+            },
+            "description": "The roles that the member has in the organisation.",
+            "nullable": true
+          },
+          "IsPrimary": {
+            "type": "boolean",
+            "description": "Indicates if this is the primary relationship for the member. A member should have only one primary relationship."
+          }
+        },
+        "additionalProperties": false,
+        "description": "The relationship between Member and Organization."
+      },
+      "MemberRole": {
+        "enum": [
+          "None",
+          "Agent",
+          "Admin",
+          "DesignatedRealtor",
+          "DesignatedBroker",
+          "Owner",
+          "TeamLead"
+        ],
+        "type": "string"
+      },
+      "MortgageBrokerDetailModel": {
+        "type": "object",
+        "properties": {
+          "AgentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "RmaAgentProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/AgentBrandingModel"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "WebsiteUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "FacebookUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "TwitterUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "LinkedInUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "OverallStars": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "MortgageBrokerStatistics": {
+            "$ref": "#/components/schemas/MortgageBrokerStatisticsModel"
+          },
+          "HasApiAccess": {
+            "type": "boolean"
+          },
+          "AgentProfileTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MortgageBrokerReviewModel": {
+        "type": "object",
+        "properties": {
+          "ReviewCode": {
+            "$ref": "#/components/schemas/ReviewCode"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewedOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsRecommended": {
+            "type": "boolean"
+          },
+          "StarRating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ReviewExpiry": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "PropertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "PropertyCoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bedrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Bathrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Carparks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ResultPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "StreetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "Suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          },
+          "Postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Coordinates": {
+            "$ref": "#/components/schemas/CoordinateModel"
+          },
+          "ReviewResponse": {
+            "$ref": "#/components/schemas/ReviewResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MortgageBrokerReviewModelResults": {
+        "type": "object",
+        "properties": {
+          "Results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MortgageBrokerReviewModel"
+            },
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Take": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Skip": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MortgageBrokerStatisticsModel": {
+        "type": "object",
+        "properties": {
+          "Reviews": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Organization": {
+        "required": [
+          "Status",
+          "Type",
+          "VerticalType"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string",
+            "description": "The unique identifier for the organization in your system.",
+            "nullable": true
+          },
+          "Type": {
+            "$ref": "#/components/schemas/OrganizationType"
+          },
+          "VerticalType": {
+            "$ref": "#/components/schemas/VerticalType"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "OtherIdentifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Identifier"
+            },
+            "description": "A list of other identifiers for the organization. For example it could be MLS ID, TMS ID, your CRM ID etc.",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the organization.",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "description": "The email address of the organization.",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "description": "The phone number of the organization.",
+            "nullable": true
+          },
+          "Fax": {
+            "type": "string",
+            "description": "The fax number of the organization.",
+            "nullable": true
+          },
+          "Summary": {
+            "type": "string",
+            "description": "The summary for the organization that is displayed in RateMyAgent.",
+            "nullable": true
+          },
+          "SocialMedia": {
+            "$ref": "#/components/schemas/SocialMediaLinks"
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/Branding"
+          },
+          "Languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of languages. Values must be from list of ISO Language Names based on ISO 639-1 https://www.iso.org/standard/22109.html. You can find a list on Wikipedia but it may not be up to date https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes.",
+            "nullable": true
+          },
+          "Addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Address"
+            },
+            "description": "List of addresses for the organization.",
+            "nullable": true
+          },
+          "ParentOrganization": {
+            "$ref": "#/components/schemas/Identifier"
+          },
+          "ModificationDateTimeUtc": {
+            "type": "string",
+            "description": "The date in UTC format when the organization data was last modified.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Full Organisation Details"
+      },
+      "OrganizationRoster": {
+        "type": "object",
+        "properties": {
+          "IsFullRoster": {
+            "type": "boolean",
+            "description": "Indicates whether a full roster of all organizations is included."
+          },
+          "Relationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberOrganizationRelationship"
+            },
+            "description": "A relationship between a member and an organization.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "List of members and the organization(s) to which they are related."
+      },
+      "OrganizationType": {
+        "enum": [
+          "Agency",
+          "Team",
+          "Office",
+          "Network",
+          "Franchise",
+          "Brokerage"
+        ],
+        "type": "string",
+        "description": "The type of organization."
+      },
+      "ProfileType": {
+        "enum": [
+          "Individual",
+          "Team",
+          "Office",
+          "Network"
+        ],
+        "type": "string"
+      },
+      "RateMyAgentRole": {
+        "enum": [
+          "None",
+          "Individual",
+          "Administrator"
+        ],
+        "type": "string",
+        "description": "The role the member has on the RateMyAgent platform."
+      },
+      "Review": {
+        "required": [
+          "Description",
+          "ReviewCode",
+          "ReviewUrl",
+          "Title"
+        ],
+        "type": "object",
+        "properties": {
+          "ReviewCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "SubmittedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsRecommended": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "Rating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ReviewExpiry": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ResultPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Reply": {
+            "$ref": "#/components/schemas/ReviewResponse"
+          },
+          "VerticalType": {
+            "$ref": "#/components/schemas/VerticalType"
+          },
+          "PropertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "CoverImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bedrooms": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Bathrooms": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Carparks": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "StreetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "Suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          },
+          "Postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Coordinates": {
+            "$ref": "#/components/schemas/CoordinateModel"
+          },
+          "Profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewProfile"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewCode": {
+        "type": "object",
+        "properties": {
+          "Code": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "Number": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewIPagedList": {
+        "type": "object",
+        "properties": {
+          "Results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            },
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Take": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Skip": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewProfile": {
+        "required": [
+          "Name",
+          "ProfileCode",
+          "ProfileUrl",
+          "ReviewTrixelUrl",
+          "ReviewUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "ProfileType": {
+            "$ref": "#/components/schemas/ProfileType"
+          },
+          "ProfileCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "ProfileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ReviewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewTrixelUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "Branding": {
+            "$ref": "#/components/schemas/Branding"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewResponse": {
+        "type": "object",
+        "properties": {
+          "RespondedOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Comment": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewerType": {
+        "enum": [
+          "Landlord",
+          "Tenant",
+          "Vendor",
+          "Buyer",
+          "Browser",
+          "Professional",
+          "Other",
+          "NewMortgage",
+          "RefinancedMortgage"
+        ],
+        "type": "string"
+      },
+      "SalesReviewModel": {
+        "type": "object",
+        "properties": {
+          "ReviewCode": {
+            "$ref": "#/components/schemas/ReviewCode"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewedOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewTrixelImgUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsRecommended": {
+            "type": "boolean"
+          },
+          "StarRating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ReviewExpiry": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "PropertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "PropertyCoverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bedrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Bathrooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Carparks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ResultPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "StreetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "Suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          },
+          "Postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "Coordinates": {
+            "$ref": "#/components/schemas/CoordinateModel"
+          },
+          "ReviewResponse": {
+            "$ref": "#/components/schemas/ReviewResponse"
+          },
+          "Agent": {
+            "$ref": "#/components/schemas/AgentReviewSummaryModel"
+          },
+          "Profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewProfile"
+            },
+            "description": "All Profiles associated with this review.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SalesReviewModelResults": {
+        "type": "object",
+        "properties": {
+          "Results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SalesReviewModel"
+            },
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Take": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Skip": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SalesStatisticsModel": {
+        "type": "object",
+        "properties": {
+          "Reviews": {
+            "type": "number",
+            "format": "double"
+          },
+          "ActiveCampaigns": {
+            "type": "number",
+            "format": "double"
+          },
+          "TotalSalesQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "TotalSalesValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "AverageSalesPrice": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SocialMediaLinks": {
+        "type": "object",
+        "properties": {
+          "WebsiteUrl": {
+            "type": "string",
+            "description": "Website full URL. For example https://mywebsite.com.",
+            "nullable": true
+          },
+          "TwitterProfileUrl": {
+            "type": "string",
+            "description": "Twitter account full URL. For example https://www.twitter.com/MyProfileId.",
+            "nullable": true
+          },
+          "LinkedInProfileUrl": {
+            "type": "string",
+            "description": "LinkedIn account full URL. For example https://www.linkedin.com/in/MyProfileId.",
+            "nullable": true
+          },
+          "FacebookProfileUrl": {
+            "type": "string",
+            "description": "Facebook account full URL. For example https://www.facebook.com/MyProfileId.",
+            "nullable": true
+          },
+          "InstagramProfileUrl": {
+            "type": "string",
+            "description": "Instagram account full URL. For example https://www.instagram.com/MyProfileId.",
+            "nullable": true
+          },
+          "YouTubeChannelUrl": {
+            "type": "string",
+            "description": "YouTube channel full URL. For example https://www.youtube.com/c/MyProfileId.",
+            "nullable": true
+          },
+          "BlogUrl": {
+            "type": "string",
+            "description": "Blog full URL. For example https://www.myblog.com.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Status": {
+        "enum": [
+          "Active",
+          "Inactive"
+        ],
+        "type": "string",
+        "description": "The current status of the entity."
+      },
+      "SurveyDetails": {
+        "type": "object",
+        "properties": {
+          "FirstSentDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ScoreRecordedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Text": {
+            "type": "string",
+            "nullable": true
+          },
+          "ServiceProviderName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ServiceProviderCompany": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "$ref": "#/components/schemas/ReviewerType"
+          },
+          "AddressCountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressStateOrRegion": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressCity": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressLocality": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressStreet": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressStreetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "AddressUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "ExternalIds": {
+            "type": "object",
+            "properties": {
+              "ListingId": {
+                "type": "string"
+              },
+              "AgentId": {
+                "type": "string"
+              },
+              "AgencyId": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyResultsModel": {
+        "type": "object",
+        "properties": {
+          "SurveyDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyDetails"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VendorDetailsModel": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReviewerType": {
+            "$ref": "#/components/schemas/ReviewerType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VerticalType": {
+        "enum": [
+          "Sales",
+          "Leasing",
+          "Finance"
+        ],
+        "type": "string"
+      },
+      "ZapierListingPayload": {
+        "type": "object",
+        "properties": {
+          "SkipS3Upload": {
+            "type": "boolean"
+          },
+          "ProviderEntity": {
+            "type": "string",
+            "nullable": true
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          },
+          "ListingPrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "ListingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "SalePrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "SaleDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "TransactionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "TransactionType": {
+            "type": "string",
+            "nullable": true
+          },
+          "ListingAgentCount": {
+            "type": "string",
+            "nullable": true
+          },
+          "BuyingAgentCount": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1FirstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1LastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1IsSelling": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1IsBuying": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent1IsListing": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2FirstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2LastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2IsSelling": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2IsBuying": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent2IsListing": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3FirstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3LastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3IsSelling": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3IsBuying": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agent3IsListing": {
+            "type": "string",
+            "nullable": true
+          },
+          "AgentsJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "Seller": {
+            "type": "string",
+            "nullable": true
+          },
+          "SellerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "SellerJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "Buyer": {
+            "type": "string",
+            "nullable": true
+          },
+          "BuyerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "BuyerJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "ContactsJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "string",
+            "nullable": true
+          },
+          "ClientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Agent"
+            },
+            "nullable": true
+          },
+          "Buyers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Buyer"
+            },
+            "nullable": true
+          },
+          "Contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "nullable": true
+          },
+          "Zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Authorization header should be in JWT Bearer scheme. For example, include the token as follows: 'Authorization: Bearer {token}'.",
+        "scheme": "Bearer"
+      }
+    }
+  }
+}

@@ -11,5 +11,6 @@
   "/market-insights/page": "app/market-insights/page.js",
   "/page": "app/page.js",
   "/privacy/page": "app/privacy/page.js",
-  "/reviews/page": "app/reviews/page.js"
+  "/reviews/page": "app/reviews/page.js",
+  "/studio/[[...tool]]/page": "app/studio/[[...tool]]/page.js"
 }

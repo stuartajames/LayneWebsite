@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getAgentProfile } from '@/lib/bio'
 
 export const metadata: Metadata = {
   title: 'About Layne',
@@ -8,11 +9,17 @@ export const metadata: Metadata = {
     "Learn about Layne Hughes — licensed real estate consultant with Harcourts Wellington City, specialising in Wellington's northern suburbs.",
 }
 
-const CREDENTIALS = [
+const FALLBACK_CREDENTIALS = [
   'Licensed Real Estate Consultant (REAA 2008)',
   'Harcourts Wellington City — Top Performer',
   'Specialist in Wellington northern suburbs',
   '4.9★ average across 76 verified RateMyAgent reviews',
+]
+
+const FALLBACK_BIO = [
+  "Layne Hughes is a licensed real estate consultant with Harcourts Wellington City, bringing genuine passion and deep local knowledge to every property transaction. Based in Wellington's northern suburbs, Layne has built a reputation for honest communication, meticulous preparation, and delivering outstanding results in any market.",
+  "Whether you're selling the family home, searching for your next property, or wanting to understand what your home is worth, Layne provides the guidance and expertise to make the process as smooth as possible.",
+  "With a 4.9-star average across 76 verified reviews on RateMyAgent, Layne's clients consistently highlight her professionalism, responsiveness, and ability to achieve results beyond expectations.",
 ]
 
 const SUBURBS = [
@@ -30,7 +37,14 @@ const SUBURBS = [
   { name: 'Wadestown',     x: 250, y: 225 },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const profile = await getAgentProfile()
+  const credentials = profile?.credentials?.length ? profile.credentials : FALLBACK_CREDENTIALS
+  const bioParas = profile?.bio
+    ? profile.bio.split('\n').filter(Boolean)
+    : FALLBACK_BIO
+  const photoSrc = profile?.photo || '/layne-hero.jpg'
+
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid gap-12 lg:grid-cols-2">
@@ -38,7 +52,7 @@ export default function AboutPage() {
         <div className="flex flex-col gap-6">
           <div className="relative aspect-[3/4] max-w-sm overflow-hidden rounded-2xl">
             <Image
-              src="/layne-hero.jpg"
+              src={photoSrc}
               alt="Layne Hughes — Harcourts Wellington City"
               fill
               className="object-cover"
@@ -48,7 +62,7 @@ export default function AboutPage() {
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold text-brand-dark">Credentials</h2>
             <ul className="flex flex-col gap-2">
-              {CREDENTIALS.map((c) => (
+              {credentials.map((c) => (
                 <li key={c} className="flex items-start gap-2 text-sm text-gray-600">
                   <span className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold">✓</span>
                   {c}
@@ -66,24 +80,9 @@ export default function AboutPage() {
             </p>
             <h1 className="mb-4 text-3xl font-bold text-brand-dark">Layne Hughes</h1>
             <div className="flex flex-col gap-4 text-sm leading-relaxed text-gray-600">
-              <p>
-                Layne Hughes is a licensed real estate consultant with Harcourts
-                Wellington City, bringing genuine passion and deep local knowledge to
-                every property transaction. Based in Wellington&apos;s northern suburbs,
-                Layne has built a reputation for honest communication, meticulous
-                preparation, and delivering outstanding results in any market.
-              </p>
-              <p>
-                Whether you&apos;re selling the family home, searching for your next
-                property, or wanting to understand what your home is worth, Layne
-                provides the guidance and expertise to make the process as smooth
-                as possible.
-              </p>
-              <p>
-                With a 4.9-star average across 76 verified reviews on RateMyAgent,
-                Layne&apos;s clients consistently highlight her professionalism,
-                responsiveness, and ability to achieve results beyond expectations.
-              </p>
+              {bioParas.map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
             </div>
           </div>
 
