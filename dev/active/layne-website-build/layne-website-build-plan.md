@@ -1,6 +1,6 @@
 # Layne Hughes Real Estate — Simplified Build Plan
 
-Last Updated: 2026-04-29
+Last Updated: 2026-04-29 (rev 2 — v2 review tactical fixes applied)
 Supersedes: `dev/active/real-estate-agent-website/` (over-scoped original plan)
 Review source: `dev/active/real-estate-agent-website/real-estate-agent-website-review.md`
 
@@ -64,6 +64,7 @@ RateMyAgent .co.nz widget JSON
 Contact form (client component)
     └── /api/contact route → Resend → Layne's inbox (structured email)
     └── No secondary storage
+    └── Dev sender: onboarding@resend.dev until domain verified in Phase 3
 ```
 
 ### Route Structure
@@ -197,7 +198,7 @@ LAYNE_RATEMYAGENT_ID=layne-hughes-at845
 # Sanity CMS
 NEXT_PUBLIC_SANITY_PROJECT_ID=
 NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_TOKEN=              # read token — for /api/revalidate webhook auth
+SANITY_API_TOKEN=              # read token for fetching from private Sanity dataset (NOT for webhook auth)
 
 # Resend (lead email)
 RESEND_API_KEY=
@@ -214,21 +215,31 @@ REVALIDATE_SECRET=             # openssl rand -hex 32
 
 ## RateMyAgent Integration — Verification Required First
 
-**Before writing `lib/reviews.ts`**, run both of these:
+**Before writing `lib/reviews.ts`**, run all three tests (tasks T01–T03):
 
 ```bash
-# From your local machine (residential IP):
-curl -i -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+# Test 1 — residential IP
+curl -i \
+  -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+  -H "Referer: https://www.ratemyagent.co.nz" \
   https://www.ratemyagent.co.nz/real-estate-agent/layne-hughes-at845/reviews.json
 
-# From a Cloudflare/Vercel edge (use a quick test function or curl from a VPS):
-# Expect: 200 OK, Content-Type: application/json, reviews array
-# Failure modes: 403, Cloudflare challenge, HTML response
+# Test 2 — server/cloud IP (run from a VPS or Cloudflare Worker)
+# Same curl command from a non-residential IP
+
+# Test 3 — browser CORS (paste in DevTools console on example.com)
+# fetch('https://www.ratemyagent.co.nz/real-estate-agent/layne-hughes-at845/reviews.json')
+#   .then(r => r.json()).then(console.log)
 ```
 
-**If residential works but server-side doesn't:** implement as a client-side fetch in a `useEffect` — the data loads after hydration rather than at build time. Slightly worse for SEO but the reviews section isn't indexed content anyway.
+| T01 residential | T02 server | T03 CORS | Strategy |
+|---|---|---|---|
+| ✅ 200 JSON | ✅ 200 JSON | — | Server-side ISR in `lib/reviews.ts` |
+| ✅ 200 JSON | ❌ blocked | ✅ no CORS error | Client-side `useEffect` in `ReviewFeed` |
+| ✅ 200 JSON | ❌ blocked | ❌ CORS blocked | Sanity testimonials only |
+| ❌ blocked | ❌ blocked | ❌ blocked | Sanity testimonials only |
 
-**If neither works:** remove `lib/reviews.ts` entirely; serve Sanity `testimonial` documents as the reviews section. No other code changes needed — the `Review` interface and `ReviewFeed` component remain identical.
+**If strategy is Sanity testimonials:** request 3–5 written testimonials (text + author name) from Layne immediately at T04 — do not wait until Phase 2. No other code or UI changes needed.
 
 ---
 
@@ -236,12 +247,15 @@ curl -i -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" 
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| RateMyAgent endpoint blocked server-side | Medium | Medium | Client-side fetch fallback; or Sanity testimonials |
-| Sanity image bandwidth hits 10GB free cap | Low (initially) | Medium | Cap photos at 6 per listing, max 1280px webp via Sanity image pipeline |
-| Resend email lands in spam | Medium | High | Configure SPF/DKIM/DMARC on domain before launch — needs Layne's DNS access |
-| Cloudflare Pages Next.js adapter issues | Low-Medium | High | Fallback to Vercel Pro ($20/mo) — no code changes needed |
+| RateMyAgent endpoint blocked server-side | Medium | Medium | T02 server test confirms; client-side useEffect fallback if residential-only |
+| RateMyAgent client-side fetch blocked by CORS | Medium | Medium | T03 browser test confirms; if blocked, Sanity testimonials only — zero UI changes |
+| Sanity image bandwidth hits 10GB free cap | Low (initially) | Medium | Custom `next/image` loader (T18) + cap photos at 6 per listing, 1280px webp |
+| Resend email lands in spam | Medium | High | Use `onboarding@resend.dev` for dev; domain DNS verification (SPF/DKIM/DMARC) in Phase 3 |
+| Cloudflare Pages Next.js adapter issues | Low-Medium | High | Fallback to Vercel Pro ($20/mo) — no code changes needed; decision point end of Phase 0 |
 | Listings tabs show empty state | Medium | Medium | Only render tab when bucket ≥1; default to Sold |
-| Privacy policy copy not provided | Medium | Medium | Explicitly Layne's responsibility — use NZ Office of the Privacy Commissioner template |
+| Privacy policy copy not provided | Medium | Medium | Explicitly Layne's responsibility — NZ OPC template at privacy.org.nz |
+| Sanity outage | Very low | Low | `revalidate: false` serves previous cache — acceptable for a brochure site |
+| Testimonial content missing if RateMyAgent blocked | Medium | Medium | Surface at T04 — request from Layne immediately if blocked path confirmed |
 
 ---
 

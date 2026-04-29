@@ -1,6 +1,6 @@
 # Layne Hughes Real Estate — Build Tasks
 
-Last Updated: 2026-04-29
+Last Updated: 2026-04-29 (rev 2 — review tactical fixes applied)
 Status: **Ready to build. All planning decisions confirmed.**
 Timeline: ~3 weeks
 
@@ -11,15 +11,17 @@ Timeline: ~3 weeks
 ### 0.1 Verify RateMyAgent endpoint FIRST — before any other work
 - [ ] **T01** Run curl test from residential IP (see context.md verification checklist) `S`
 - [ ] **T02** Run curl test from a server/VPS/cloud IP `S`
-- [ ] **T03** Record result in context.md: server-side OK / client-side only / blocked `S`
-- [ ] **T04** Based on result: confirm `lib/reviews.ts` fetch strategy (server ISR / client useEffect / Sanity testimonials) `S`
+- [ ] **T03** Run browser CORS test: open DevTools on `example.com` → console → `fetch('https://www.ratemyagent.co.nz/real-estate-agent/layne-hughes-at845/reviews.json').then(r=>r.json()).then(console.log)` `S`
+  - If CORS blocks: client-side useEffect fallback is also dead — only Sanity testimonials remain
+- [ ] **T04** Record all three results in context.md and confirm fetch strategy (see decision matrix) `S`
+  - If strategy is "Sanity testimonials": request 3–5 testimonials (text + author name) from Layne now — do not wait until Phase 2
 
 **Do not proceed to T05 until T01–T04 are done.**
 
 ### 0.2 Project migration
-- [ ] **T05** Run `npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias "@/*"` in project root `S`
-- [ ] **T06** Delete Vite files: `vite.config.ts`, `index.html`, `src/App.tsx`, `src/App.css`, `src/main.tsx` `S`
-- [ ] **T07** Update `tsconfig.json` for Next.js (create-next-app does this — verify) `S`
+- [ ] **T05** Delete Vite artifacts first: `vite.config.ts`, `index.html`, `src/`, `package.json`, `package-lock.json`, `node_modules/`, `tsconfig.json` `S`
+- [ ] **T06** Run `npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias "@/*"` in now-clean project root `S`
+- [ ] **T07** Verify `tsconfig.json` created correctly for Next.js `S`
 - [ ] **T08** Verify `npm run build` passes on blank Next.js scaffold `S`
 
 ### 0.3 Harcourts theme
@@ -34,19 +36,22 @@ Timeline: ~3 weeks
 - [ ] **T15** Write schema: `suburbStat.ts` (12 Wellington northern suburbs) `S`
 - [ ] **T16** Write schema: `agentProfile.ts` (singleton) `S`
 - [ ] **T17** Write schema: `testimonial.ts` (fallback if RateMyAgent blocked) `S`
-- [ ] **T18** Configure `next/image` with `cdn.sanity.io` domain in `next.config.ts` `S`
+- [ ] **T18** Write `lib/sanityImageLoader.ts` — custom `next/image` loader that maps `src`, `width`, `quality` to Sanity's `?w=&q=&fm=webp` URL params via `@sanity/image-url` `S`
+  - Add `cdn.sanity.io` to `images.domains` in `next.config.ts` as well
+  - This is load-bearing for the 10GB bandwidth cap: without it `next/image` fetches originals
 
 ### 0.5 Hosting
 - [ ] **T19** Create Cloudflare Pages project, connect GitHub repo `S`
 - [ ] **T20** Deploy blank Next.js app — verify build succeeds with `@cloudflare/next-on-pages` `M`
 - [ ] **T21** If Cloudflare Pages build fails on any feature: switch to Vercel Pro immediately, do not debug adapter `S`
 
-### 0.6 Resend setup
-- [ ] **T22** Create Resend account, add domain `laynesaywellhughes.co.nz` `S`
-- [ ] **T23** Add DNS records to domain registrar (SPF, DKIM x3, DMARC) — requires Layne's DNS access `M`
-- [ ] **T24** Verify domain in Resend dashboard `S`
+### 0.6 Resend setup (dev only — domain verification deferred to Phase 3)
+- [ ] **T22** Create Resend account `S`
+- [ ] **T23** Confirm real domain with Layne before opening domain verification — do NOT verify against placeholder `laynesaywellhughes.co.nz` `S`
+  - If real domain still TBC: use Resend's `onboarding@resend.dev` sender for Phase 1/2 dev testing
+  - DNS verification (SPF, DKIM x3, DMARC) moves to Phase 3 once domain is confirmed
 
-**Acceptance criteria:** Next.js builds and deploys, Sanity Studio opens, Tailwind brand colours applied to a test element, Resend domain verified.
+**Acceptance criteria:** Next.js builds and deploys, Sanity Studio opens, Tailwind brand colours applied to a test element, Resend account created.
 
 ---
 
@@ -89,7 +94,7 @@ Timeline: ~3 weeks
 - [ ] **T43** Build `/privacy` — static page, content placeholder ("Privacy policy to be provided by Layne") `S`
 
 ### 1.8 Design review
-- [ ] **T44** Mobile responsive check at 375px and 1440px for all pages `M`
+- [ ] **T44** Mobile responsive check at 375px, 768px (iPad), and 1440px for all pages `M`
 - [ ] **T45** Harcourts brand colour consistency check across all pages `S`
 - [ ] **T46** Design sign-off from Layne `S`
 
@@ -118,49 +123,58 @@ Timeline: ~3 weeks
 - [ ] **T55** Wire `ReviewSummaryBar` and `ReviewFeed` to live data `S`
 
 ### 2.4 On-demand revalidation
-- [ ] **T56** Write `/api/revalidate/route.ts` — POST handler, verify `REVALIDATE_SECRET`, call `revalidatePath` for listings, market, home, about `S`
-- [ ] **T57** Configure Sanity webhook → `[site]/api/revalidate` in Sanity project settings `S`
-- [ ] **T58** Test: publish a listing change in Sanity → verify site updates within 10 seconds `S`
+- [ ] **T56** Tag all GROQ fetches with `next: { tags: ['listings'] | ['market'] | ['bio'] }` in `lib/listings.ts`, `lib/market.ts`, `lib/bio.ts` `S`
+  - Also tag the GROQ fetch inside `app/sitemap.ts` with `['listings']` so new listing slugs appear in the sitemap on publish
+- [ ] **T57** Write `/api/revalidate/route.ts` — POST handler: verify `REVALIDATE_SECRET` against `sanity-webhook-signature` header, read `_type` from Sanity webhook payload, call `revalidateTag('listings' | 'market' | 'bio')` based on type `M`
+  - Use `revalidateTag`, not `revalidatePath` — `revalidatePath` won't update individual `/listings/[slug]` detail pages
+  - `SANITY_API_TOKEN` is NOT used here; webhook auth uses `REVALIDATE_SECRET` only
+- [ ] **T58** Configure Sanity webhook → `[site]/api/revalidate` in Sanity project settings `S`
+- [ ] **T59** Test: publish a listing change in Sanity → verify both `/listings` grid AND the individual `/listings/[slug]` detail page update within 10 seconds `S`
 
 ### 2.5 Contact form backend
-- [ ] **T59** Write `/api/contact/route.ts` — POST, Zod validation, send structured email to Layne via Resend `M`
-- [ ] **T60** Test form submission end-to-end — email arrives in Layne's inbox `S`
+- [ ] **T60** Write `/api/contact/route.ts` — POST, Zod validation, send structured email to Layne via Resend `M`
+  - Use `onboarding@resend.dev` sender if domain not yet verified
+- [ ] **T61** Test form submission end-to-end — email arrives in Layne's inbox `S`
 
 ### 2.6 Content entry
-- [ ] **T61** Enter all current listings into Sanity Studio `M`
-- [ ] **T62** Enter 12 suburb stats from latest REINZ monthly report into Sanity Studio `M`
-- [ ] **T63** Enter Layne's bio, credentials, photo into Sanity Studio (requires Layne's content) `S`
+- [ ] **T62** Enter all current listings into Sanity Studio `M`
+- [ ] **T63** Enter 12 suburb stats from latest REINZ monthly report into Sanity Studio `M`
+- [ ] **T64** Enter Layne's bio, credentials, photo into Sanity Studio (requires Layne's content) `S`
 
-**Acceptance criteria:** All pages show real data. Form submission emails Layne. Sanity publish triggers site revalidation within 10 seconds.
+**Acceptance criteria:** All pages show real data. Form submission emails Layne. Sanity publish triggers revalidation of both index and detail pages within 10 seconds.
 
 ---
 
 ## Phase 3 — SEO + Launch (Days 15–17)
 
 ### 3.1 SEO
-- [ ] **T64** Add `metadata` export to every page (title, description, OG title, OG image) `M`
-- [ ] **T65** Add `RealEstateAgent` JSON-LD to `/` (home page) `S`
-- [ ] **T66** Add `Product` + `Offer` JSON-LD to `/listings/[slug]` `S`
-- [ ] **T67** Write `app/sitemap.ts` — generates from Sanity listing slugs + static routes `S`
-- [ ] **T68** Write `app/robots.ts` `S`
+- [ ] **T65** Add `metadata` export to every page (title, description, OG title, OG image) `M`
+- [ ] **T66** Add `RealEstateAgent` JSON-LD to `/` (home page) `S`
+- [ ] **T67** Add `Product` + `Offer` JSON-LD to `/listings/[slug]` `S`
+- [ ] **T68** Write `app/sitemap.ts` — GROQ fetch tagged `['listings']` so Sanity webhook revalidates sitemap on publish `S`
+- [ ] **T69** Write `app/robots.ts` `S`
 
-### 3.2 Performance
-- [ ] **T69** Run Lighthouse audit — target Performance ≥90, SEO ≥95 `M`
-- [ ] **T70** Fix any LCP, CLS, or INP issues `M`
-- [ ] **T71** Verify all listing images use `next/image` with `alt` text `S`
-- [ ] **T72** WCAG AA spot check — keyboard nav, colour contrast on brand colours `S`
+### 3.2 Performance + accessibility
+- [ ] **T70** Run Lighthouse audit — target Performance ≥90, SEO ≥95 `M`
+- [ ] **T71** Fix any LCP, CLS, or INP issues `M`
+- [ ] **T72** Verify all listing images use `next/image` with descriptive `alt` text `S`
+- [ ] **T73** Verify all links have discernible text, all images have alt (Lighthouse SEO requirements for ≥95) `S`
+- [ ] **T74** WCAG AA spot check — keyboard nav, colour contrast on brand gold `S`
 
 ### 3.3 Privacy + legal
-- [ ] **T73** Replace privacy page placeholder with Layne-provided policy text `S` ← Layne's content
+- [ ] **T75** Replace privacy page placeholder with Layne-provided policy text `S` ← Layne's content
 
-### 3.4 Launch
-- [ ] **T74** Connect confirmed real domain in Cloudflare Pages (or Vercel) settings `S` ← domain TBC
-- [ ] **T75** Update `NEXT_PUBLIC_SITE_URL` and `metadataBase` to real domain `S`
-- [ ] **T76** Verify SSL certificate active `S`
-- [ ] **T77** Submit sitemap to Google Search Console `S`
-- [ ] **T78** Enable Cloudflare Web Analytics (free, zero config) `S`
+### 3.4 DNS + domain (production Resend verification happens here)
+- [ ] **T76** Confirm real domain with Layne `S`
+- [ ] **T77** Add Resend DNS records to real domain registrar (SPF, DKIM x3, DMARC) — requires Layne's DNS access `M`
+- [ ] **T78** Verify domain in Resend dashboard; update `RESEND_FROM` from `onboarding@resend.dev` to verified domain `S`
+- [ ] **T79** Connect confirmed real domain in Cloudflare Pages (or Vercel) settings `S`
+- [ ] **T80** Update `NEXT_PUBLIC_SITE_URL` and `metadataBase` to real domain `S`
+- [ ] **T81** Verify SSL certificate active `S`
+- [ ] **T82** Submit sitemap to Google Search Console `S`
+- [ ] **T83** Enable Cloudflare Web Analytics (free, zero config) `S`
 
-**Acceptance criteria:** Lighthouse ≥90/95. All pages indexed. Email confirmed delivered. Site live at real domain.
+**Acceptance criteria:** Lighthouse ≥90/95. All pages indexed. Email confirmed delivered from verified domain. Site live at real domain.**
 
 ---
 
