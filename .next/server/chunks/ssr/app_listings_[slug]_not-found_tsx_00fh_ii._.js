@@ -1,0 +1,3 @@
+module.exports=[93785,a=>{"use strict";var b=a.i(7997),c=a.i(95936);a.s(["default",0,function(){return(0,b.jsxs)("main",{className:"flex flex-1 flex-col items-center justify-center px-4 py-24 text-center",children:[(0,b.jsx)("h1",{className:"text-2xl font-bold text-brand-dark",children:"This property is no longer available"}),(0,b.jsx)("p",{className:"mt-2 text-gray-500",children:"It may have been sold, leased, or the listing has been removed."}),(0,b.jsx)(c.default,{href:"/listings",className:"mt-6 rounded-full bg-brand-gold px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-gold-dark",children:"View current listings"})]})}])},12117,a=>{a.n(a.i(93785))}];
+
+//# sourceMappingURL=app_listings_%5Bslug%5D_not-found_tsx_00fh_ii._.js.map
