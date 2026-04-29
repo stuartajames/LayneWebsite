@@ -6,4 +6,7 @@ Active plans live in `dev/active/[task-name]/`. Each plan has three files:
 - `*-tasks.md` — checklist for tracking implementation progress
 
 ## Active Plans
-- [real-estate-agent-website](active/real-estate-agent-website/) — Main site build
+- [layne-website-build](active/layne-website-build/) — **Current** simplified 3-week build plan (use this)
+
+## Archived Plans
+- [real-estate-agent-website](active/real-estate-agent-website/) — Original over-scoped plan + review. Reference only.
