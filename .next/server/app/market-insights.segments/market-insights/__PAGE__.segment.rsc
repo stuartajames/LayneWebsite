@@ -1,5 +1,0 @@
-1:"$Sreact.fragment"
-2:I[897367,["/_next/static/chunks/0zqfa46a_vfht.js","/_next/static/chunks/0i.l9589uvx0j.js"],"OutletBoundary"]
-3:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"className":"mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-8","children":[["$","h1",null,{"className":"mb-2 text-3xl font-bold text-brand-dark","children":"Market Insights"}],["$","p",null,{"className":"mb-8 text-gray-500","children":["Quarterly data for Wellington's northern suburbs from the REINZ monthly report.",null]}],["$","p",null,{"className":"text-gray-400","children":"Market data coming soon."}],["$","p",null,{"className":"mt-8 text-xs text-gray-400","children":"Source: Real Estate Institute of New Zealand (REINZ). Data reflects completed sales and is for informational purposes only."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"RD588-35JykPxQbavavk6"}
-4:null

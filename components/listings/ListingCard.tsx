@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Listing } from '@/types'
 
 const STATUS_STYLES: Record<Listing['status'], string> = {
@@ -18,7 +19,8 @@ const STATUS_LABELS: Record<Listing['status'], string> = {
 type Props = { listing: Listing }
 
 export function ListingCard({ listing }: Props) {
-  const { address, status, priceDisplay, bedrooms, bathrooms, carSpaces, slug } = listing
+  const { address, status, priceDisplay, bedrooms, bathrooms, carSpaces, slug, images } = listing
+  const coverImage = images[0] ?? null
 
   return (
     <Link
@@ -27,9 +29,19 @@ export function ListingCard({ listing }: Props) {
     >
       {/* Image / placeholder */}
       <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200">
-        <span className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
-          Photo coming soon
-        </span>
+        {coverImage ? (
+          <Image
+            src={coverImage}
+            alt={`${address.street} — cover photo`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <span className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
+            Photo coming soon
+          </span>
+        )}
         <span className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[status]}`}>
           {STATUS_LABELS[status]}
         </span>
