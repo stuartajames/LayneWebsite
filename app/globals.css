@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* TODO: verify exact Harcourts hex values from harcourts.co.nz stylesheet before launch */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --brand-gold: #c9a84c;      /* Harcourts gold — approximate */
+  --brand-gold-dark: #a8873a; /* hover state */
+  --brand-dark: #1a1a1a;      /* Harcourts charcoal */
+  --brand-bg: #f9f7f4;        /* warm off-white background */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-dark: var(--brand-gold-dark);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-bg: var(--brand-bg);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

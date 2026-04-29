@@ -1,0 +1,361 @@
+{
+ "@context": "https://schema.org",
+ "@type": "RealEstateAgent",
+ "name": "Layne Hughes",
+ "url": "https://www.ratemyagent.co.nz/real-estate-agent/layne-hughes-at845/sales/overview",
+ "logo": "https://cdn.ratemyagent.co.nz/banner/a2cb20be-a86a-4041-ba10-bb42fd6452c4.png",
+ "telephone": "021 246 8660",
+ "review": [
+  {
+   "@type": "Review",
+   "datePublished": "2026-04-24T22:30:45.135Z",
+   "headline": "Layne Hughes",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne was professional, reassuring and very friendly. She was truthful.  I was totally at ease with her and trusted her.  She delivered as promised so would definitely recommend her to family and friends.  Thanks Layne ",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Chrissy Bell"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-04-21T09:05:05.682Z",
+   "headline": "A smooth process with a great result",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "With her enthusiasm, positivity, sound advice, and attention for detail, Layne made selling our lovely home a smooth process with an outcome we are very happy with. We worked well together to create a plan that suited our circumstances, and it went as we had hoped for, selling within 5 weeks. \nLayne is a lovely and caring person, who easily connects with people.\nShe was thorough in following up with interested parties and provided us with regular updates where things were at. As far as we can tell, Layne is very good at getting to know and supporting potential buyers. This resulted in a very quick negotiation process to finalise the sale after the tender. We can highly recommend Layne!",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Seller"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-04-19T22:06:12.212Z",
+   "headline": "Great support",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne was great with sound advice and very helpful with makung sure the house was ready to sell.",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Michael Bell"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-04-19T21:46:06.970Z",
+   "headline": "Amazing Agent",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne was so helpful and so lovely in guiding us through the auction process. She was so helpful at the open homes and made the whole process so easy! ",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Alana Peek"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-03-15T04:59:24.034Z",
+   "headline": "Outstanding understanding of the market, advice and execution.",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "As agent for the sale of my aunt's estate Layne and the Harcouts Khandallah team brought a thorough understanding of the local market, gave sound advice about how to prepare the property for sale and the method of sale (auction), concieved a unique marketing pitch (nearly 7000 views on TradeMe), and without fuss achieved an outstanding outcome in a challenging market.",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 4,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Seller"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-03-08T11:00:00.000Z",
+   "headline": "Great communication and quick turn around",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne was wonderful to work with. Her manner was very professional and she responded to my plethora of calls, texts, and e-mails quickly. Her genuine warmth and enthusiasm really shone through. Thank you for helping me find the house of my dreams, Layne!\n\n",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Buyer"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-03-07T03:53:47.770Z",
+   "headline": "Amazing service and results!",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne was so helpful every step of the way and happy to help out with paperwork or staging - all the little things to make the process easier for us! Would highly recommend Layne to anyone considering selling. Thanks again!",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Elizabeth Moloney-Geany"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-03-02T23:54:35.629Z",
+   "headline": "Went over and above",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne was great to deal with. Punctual and nothing seemed to be an issue. She got the best result for all involved. Look forward to dealing with her next time.",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Ben Burns"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-02-23T01:38:30.126Z",
+   "headline": "Warm, friendly and knowledgeable",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Very welcoming and knowledgeable at open homes and private viewing. Fast, clear communications throughout and great result!",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Oskar Larsson"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-02-22T23:32:38.616Z",
+   "headline": "Layne was professional, enthusiastic and really went above and beyond to get us very good outcome!",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "We were very impressed by Layne's professionalism, responsiveness, enthusiasm, hard work and flair.  She put in a lot of work to market and promote our home, above and beyond what we expected.  Layne was always quick to respond and pass on information, gave us good advice and was always friendly and easy to deal with.  The end result was a good outcome for us. ",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Hadleigh Pedler"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-02-22T22:17:30.519Z",
+   "headline": "Proactive and Passionate Performer!",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "Layne impressed from day one with her clear, upfront and positive approach to engaging with us. \n\nLayne is a passionate and talented marketer of a property. Providing careful thought, local knowledge and unique and impactful  execution to the campaign. And she kept us informed every step of the way, achieving an outcome and interest beyond what I had hoped and expected. \n\nI would 100% recommend Layne to anyone looking to sell their home. ",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Henry Popplewell"
+   }
+  },
+  {
+   "@type": "Review",
+   "datePublished": "2026-01-19T06:33:04.882Z",
+   "headline": "Perfection",
+   "publisher": {
+    "@type": "Organization",
+    "name": "RateMyAgent",
+    "url": "https://www.ratemyagent.co.nz/",
+    "logo": "https://www.ratemyagent.co.nz/assets/images/logo-black.png",
+    "description": "ratemyagent.com.au is Australia's leading real estate agent and agency review website, helping sellers make informed decisions about choosing an estate agent.",
+    "sameAs": [
+     "https://www.facebook.com/ratemyagent",
+     "https://twitter.com/RateMyAgent_ANZ",
+     "https://www.linkedin.com/company/renowned-platform/"
+    ]
+   },
+   "reviewBody": "I couldn’t have asked for a better real estate agent. Layne went above and beyond at every step. Despite things being a bit challenging with my relocation to Auckland, she was always available when needed and guided me through the entire process, answering all of my questions along the way. She took the stress out of everything and made the experience seamless. The property sold far quicker than I expected. It was a pleasure meeting and working with her, and I would happily use her again if I own property in Wellington.",
+   "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "worstRating": 0
+   },
+   "author": {
+    "@type": "Person",
+    "name": "Josh"
+   }
+  }
+ ],
+ "priceRange": "Contact agent",
+ "aggregateRating": {
+  "@type": "AggregateRating",
+  "ratingValue": 4.9,
+  "bestRating": 5,
+  "worstRating": 1,
+  "reviewCount": 76
+ },
+ "sameAs": [
+  "http://www.harcourts.co.nz/",
+  "https://www.linkedin.com/in/layne-hughes-05b561213/",
+  "https://www.facebook.com/layneharcourts",
+  "https://www.instagram.com/laynehughes_harcourts/",
+  "https://www.youtube.com/@laynehughes-realestate4068"
+ ]
+}

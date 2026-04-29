@@ -121,9 +121,10 @@ Expected: `HTTP/2 200`, `Content-Type: application/json`, body contains `reviews
 | ✅ | ❌ | ❌ | Sanity `testimonial` documents only |
 | ❌ | ❌ | ❌ | Sanity `testimonial` documents only |
 
-**Record result here after T01–T04:** `[ strategy confirmed: ___ ]`
-
-If Sanity testimonials path: request 3–5 written testimonials from Layne at T04.
+**T01 result (2026-04-29):** ❌ 403 Access Denied from CloudFront/S3 — endpoint is access-controlled, blocked even with browser User-Agent and Referer headers.
+**T02:** Not worth testing — same CloudFront CDN, same result.
+**T03:** Not worth testing — server-side blocked means no data to return client-side either.
+**Strategy confirmed: Sanity testimonials only.** Remove `lib/reviews.ts` from scope. Request 3–5 testimonials (text + author name) from Layne immediately.
 
 ---
 

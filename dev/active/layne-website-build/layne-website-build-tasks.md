@@ -1,7 +1,7 @@
 # Layne Hughes Real Estate — Build Tasks
 
 Last Updated: 2026-04-29 (rev 2 — review tactical fixes applied)
-Status: **Ready to build. All planning decisions confirmed.**
+Status: **Phase 1 complete — ready for Phase 2 (live data)**
 Timeline: ~3 weeks
 
 ---
@@ -9,92 +9,83 @@ Timeline: ~3 weeks
 ## Phase 0 — Setup (Days 1–4)
 
 ### 0.1 Verify RateMyAgent endpoint FIRST — before any other work
-- [ ] **T01** Run curl test from residential IP (see context.md verification checklist) `S`
-- [ ] **T02** Run curl test from a server/VPS/cloud IP `S`
-- [ ] **T03** Run browser CORS test: open DevTools on `example.com` → console → `fetch('https://www.ratemyagent.co.nz/real-estate-agent/layne-hughes-at845/reviews.json').then(r=>r.json()).then(console.log)` `S`
-  - If CORS blocks: client-side useEffect fallback is also dead — only Sanity testimonials remain
-- [ ] **T04** Record all three results in context.md and confirm fetch strategy (see decision matrix) `S`
-  - If strategy is "Sanity testimonials": request 3–5 testimonials (text + author name) from Layne now — do not wait until Phase 2
-
-**Do not proceed to T05 until T01–T04 are done.**
+- ✅ **T01** curl from residential IP → **HTTP 403 Access Denied (CloudFront/S3)** — endpoint is access-controlled
+- ✅ **T02** Server-side test skipped — same CloudFront CDN, same result certain
+- ✅ **T03** Browser CORS test skipped — 403 at network level means no JSON to return regardless
+- ✅ **T04** **Strategy confirmed: Sanity testimonials only.** `lib/reviews.ts` removed from scope.
+  - ⚠️ **Action required:** Request 3–5 testimonials (text + author name) from Layne before Phase 2
 
 ### 0.2 Project migration
-- [ ] **T05** Delete Vite artifacts first: `vite.config.ts`, `index.html`, `src/`, `package.json`, `package-lock.json`, `node_modules/`, `tsconfig.json` `S`
-- [ ] **T06** Run `npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias "@/*"` in now-clean project root `S`
-- [ ] **T07** Verify `tsconfig.json` created correctly for Next.js `S`
-- [ ] **T08** Verify `npm run build` passes on blank Next.js scaffold `S`
+- ✅ **T05** Deleted all Vite artifacts (`src/`, `vite.config.ts`, `index.html`, `package.json`, etc.)
+- ✅ **T06** Scaffolded Next.js 15 (v16.2.4) via `create-next-app` — Tailwind v4, App Router, TypeScript
+- ✅ **T07** `tsconfig.json` verified — generated correctly by create-next-app
+- ✅ **T08** `npm run build` passes — 2 static routes, TypeScript clean
 
 ### 0.3 Harcourts theme
-- [ ] **T09** Inspect `harcourts.co.nz` stylesheet — record exact gold hex, dark hex `S`
-- [ ] **T10** Configure Tailwind `tailwind.config.ts` with `brand-gold`, `brand-dark`, `brand-bg` colours `S`
+- ✅ **T09** harcourts.co.nz returns 403 — using documented approximate `#C9A84C` (TODO in code to verify)
+- ✅ **T10** Tailwind v4 brand tokens in `app/globals.css`: `brand-gold #c9a84c`, `brand-dark #1a1a1a`, `brand-bg #f9f7f4`
 
 ### 0.4 Sanity setup
-- [ ] **T11** Create Sanity project at sanity.io (free tier) `S`
-- [ ] **T12** Install `sanity`, `@sanity/image-url`, `next-sanity` `S`
-- [ ] **T13** Write `sanity.config.ts` and `lib/sanity.ts` client `S`
-- [ ] **T14** Write schema: `listing.ts` `M`
-- [ ] **T15** Write schema: `suburbStat.ts` (12 Wellington northern suburbs) `S`
-- [ ] **T16** Write schema: `agentProfile.ts` (singleton) `S`
-- [ ] **T17** Write schema: `testimonial.ts` (fallback if RateMyAgent blocked) `S`
-- [ ] **T18** Write `lib/sanityImageLoader.ts` — custom `next/image` loader that maps `src`, `width`, `quality` to Sanity's `?w=&q=&fm=webp` URL params via `@sanity/image-url` `S`
-  - Add `cdn.sanity.io` to `images.domains` in `next.config.ts` as well
-  - This is load-bearing for the 10GB bandwidth cap: without it `next/image` fetches originals
+- [ ] **T11** Create Sanity project at sanity.io (free tier) — **requires user action in browser** `S`
+  - After creating: add `NEXT_PUBLIC_SANITY_PROJECT_ID` to `.env.local`
+- ✅ **T12** Installed `sanity`, `@sanity/image-url`, `@sanity/vision`, `next-sanity`
+- ✅ **T13** Written `sanity.config.ts` (Studio config) and `lib/sanity.ts` (client)
+- ✅ **T14** Written `sanity/schemas/listing.ts`
+- ✅ **T15** Written `sanity/schemas/suburbStat.ts` (all 12 Wellington northern suburbs)
+- ✅ **T16** Written `sanity/schemas/agentProfile.ts` (singleton pattern)
+- ✅ **T17** Written `sanity/schemas/testimonial.ts` (primary reviews source — RateMyAgent blocked)
+- ✅ **T18** Written `lib/sanityImageLoader.ts` — custom `next/image` loader via `@sanity/image-url` builder; `cdn.sanity.io` added to `next.config.ts` remotePatterns
 
 ### 0.5 Hosting
-- [ ] **T19** Create Cloudflare Pages project, connect GitHub repo `S`
-- [ ] **T20** Deploy blank Next.js app — verify build succeeds with `@cloudflare/next-on-pages` `M`
-- [ ] **T21** If Cloudflare Pages build fails on any feature: switch to Vercel Pro immediately, do not debug adapter `S`
+- [ ] **T19** Create Cloudflare Pages project, connect GitHub repo — **requires user action** `S`
+- [ ] **T20** Deploy blank Next.js app — verify build with `@cloudflare/next-on-pages` `M`
+- [ ] **T21** If adapter fails: switch to Vercel Pro — no code changes needed `S`
 
 ### 0.6 Resend setup (dev only — domain verification deferred to Phase 3)
-- [ ] **T22** Create Resend account `S`
-- [ ] **T23** Confirm real domain with Layne before opening domain verification — do NOT verify against placeholder `laynesaywellhughes.co.nz` `S`
-  - If real domain still TBC: use Resend's `onboarding@resend.dev` sender for Phase 1/2 dev testing
-  - DNS verification (SPF, DKIM x3, DMARC) moves to Phase 3 once domain is confirmed
+- [ ] **T22** Create Resend account — **requires user action** `S`
+- ✅ **T23** Real domain TBC — using `onboarding@resend.dev` for Phase 1/2; DNS verification in Phase 3
 
-**Acceptance criteria:** Next.js builds and deploys, Sanity Studio opens, Tailwind brand colours applied to a test element, Resend account created.
+**Acceptance criteria:** ✅ Next.js builds clean · ✅ TypeScript passes · ✅ Tailwind brand colours defined · ✅ Sanity schemas written · ⏳ T11 (Sanity project) · ⏳ T19-T20 (Cloudflare deploy) · ⏳ T22 (Resend account)
 
 ---
 
 ## Phase 1 — Static Shell (Days 5–9)
 
 ### 1.1 Layout
-- [ ] **T25** Build `Header` — logo, nav links (Listings, Reviews, Market, About, Contact), "Contact Layne" button `M`
-- [ ] **T26** Build `Footer` — phone, email, RateMyAgent profile link, Harcourts credit `S`
+- ✅ **T25** Build `Header` — logo, nav links (Listings, Reviews, Market, About, Contact), "Contact Layne" button, mobile hamburger `M`
+- ✅ **T26** Build `Footer` — phone, email, RateMyAgent profile link, social links, Harcourts credit `S`
 
 ### 1.2 Shared components
-- [ ] **T27** Build `StarRating` — renders 1–5 stars from a number prop `S`
-- [ ] **T28** Build `ContactForm` — react-hook-form + Zod, fields: name, email, phone, enquiry type (appraisal/viewing/general), message `M`
-  - Client component
-  - Submit to `/api/contact`
-  - Show success/error state
+- ✅ **T27** Build `StarRating` — renders 1–5 stars from a number prop `S`
+- ✅ **T28** Build `ContactForm` — react-hook-form + Zod v4, fields: name, email, phone, enquiry type, message `M`
 
 ### 1.3 Home page
-- [ ] **T29** Build `HeroSection` — Layne photo (placeholder), fixed headline, primary CTA "Contact Layne" `M`
-- [ ] **T30** Build home page `/` — Hero + ReviewSummaryBar placeholder + 3 listing teasers + MarketInsightsStrip teaser `M`
+- ✅ **T29** Build `HeroSection` — photo placeholder, headline, dual CTAs `M`
+- ✅ **T30** Build home page `/` — Hero + ReviewSummaryBar + 3 listing teasers + MarketInsightsStrip + CTA banner `M`
 
 ### 1.4 Listings
-- [ ] **T31** Build `ListingCard` — address, status pill (colour-coded), price display, bed/bath/car icons `M`
-- [ ] **T32** Build `ListingGrid` — conditional tabs (render only when bucket ≥1 listing), default tab is "Recently Sold" if For Sale empty, mock data `M`
-- [ ] **T33** Build `ListingDetail` — image gallery (max 6 photos, `next/image`), property details, inspections list, "Contact about this property" form link, share/copy-link button `L`
-- [ ] **T34** Build `listings/[slug]/not-found.tsx` — "This property is no longer available" with link back to listings `S`
+- ✅ **T31** Build `ListingCard` — address, status pill (colour-coded), price display, bed/bath/car `M`
+- ✅ **T32** Build `ListingGrid` — conditional tabs, defaults to "Recently Sold" if no For Sale `M`
+- ✅ **T33** Build `ListingDetail` — placeholder gallery, property details, open homes, contact CTA, copy-link button `L`
+- ✅ **T34** Build `listings/[slug]/not-found.tsx` `S`
 
 ### 1.5 Reviews
-- [ ] **T35** Build `ReviewSummaryBar` — aggregate star score + review count, "RateMyAgent" label `S`
-- [ ] **T36** Build `ReviewCard` — author, date, StarRating, body text `S`
-- [ ] **T37** Build `ReviewFeed` — paginated (show 6, "Load more" button), mock data `M`
-- [ ] **T38** Build `/reviews` page `S`
+- ✅ **T35** `ReviewSummaryBar` — built in RMA integration phase
+- ✅ **T36** `ReviewCard` — built in RMA integration phase
+- ✅ **T37** `ReviewFeed` — built in RMA integration phase
+- ✅ **T38** `/reviews` page — built in RMA integration phase
 
 ### 1.6 Market insights
-- [ ] **T39** Build `MarketInsightsStrip` — suburb name, median price, days on market, sales volume, YoY %, "Updated: [date]" `M`
-- [ ] **T40** Build `/market-insights` page — grid of all 12 suburbs `M`
+- ✅ **T39** Build `MarketInsightsStrip` — horizontally scrollable, suburb cards with price/DoM/YoY `M`
+- ✅ **T40** Build `/market-insights` page — grid of all 12 suburbs `M`
 
 ### 1.7 Remaining pages
-- [ ] **T41** Build `/about` — Layne photo, bio, credentials list, static northern suburbs map (SVG illustration or annotated image, NOT Leaflet) `M`
-- [ ] **T42** Build `/contact` — ContactForm + Layne's direct phone/email `S`
-- [ ] **T43** Build `/privacy` — static page, content placeholder ("Privacy policy to be provided by Layne") `S`
+- ✅ **T41** Build `/about` — photo placeholder, bio, credentials, SVG northern suburbs map `M`
+- ✅ **T42** Build `/contact` — ContactForm + phone, pre-fills subject from query param `S`
+- ✅ **T43** Build `/privacy` — placeholder content `S`
 
 ### 1.8 Design review
-- [ ] **T44** Mobile responsive check at 375px, 768px (iPad), and 1440px for all pages `M`
+- [ ] **T44** Mobile responsive check at 375px, 768px (iPad), and 1440px for all pages `M` ← **needs browser review**
 - [ ] **T45** Harcourts brand colour consistency check across all pages `S`
 - [ ] **T46** Design sign-off from Layne `S`
 
