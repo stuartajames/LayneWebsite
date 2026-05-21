@@ -1,38 +1,11 @@
 import type { Listing } from '@/types'
 import imageUrlBuilder from '@sanity/image-url'
-import { getRmaToken } from './rmaToken'
 import { sanityClient } from './sanity'
 
-const AGENT_CODE = process.env.LAYNE_AGENT_CODE ?? 'layne-hughes-at845'
-const API_BASE =
-  process.env.RATEMYAGENT_API_URL ?? 'https://developers.ratemyagent.co.nz'
+const HOMES_AGENT_ID =
+  process.env.HOMES_AGENT_ID ?? '9680e0f5-4902-4c9b-a5fc-6f59511c85b6'
 
 const builder = imageUrlBuilder(sanityClient)
-
-// Swagger: ListingModel
-interface RmaListingModel {
-  CampaignCode: string | null
-  StreetAddress: string | null
-  Suburb: string | null
-  State: string | null
-  Postcode: string | null
-  Status: string | null
-  Price: string | null
-  Bedrooms: number
-  Bathrooms: number
-  Carparks: number
-  Images: { Type: string | null; Url: string | null; Order: number }[] | null
-  Description: string | null
-  ResultDate: string | null
-  AuctionDate: string | null
-}
-
-function parsePrice(raw: string | null): { price: number | null; priceDisplay: string } {
-  if (!raw) return { price: null, priceDisplay: 'Price on application' }
-  const match = raw.match(/[\d,]+/)
-  const price = match ? parseInt(match[0].replace(/,/g, ''), 10) : null
-  return { price, priceDisplay: raw }
-}
 
 function generateSlug(street: string, suburb: string): string {
   return `${street}-${suburb}`
@@ -41,84 +14,73 @@ function generateSlug(street: string, suburb: string): string {
     .replace(/^-|-$/g, '')
 }
 
-function mapStatus(rmaStatus: string | null): Listing['status'] {
-  switch (rmaStatus?.toLowerCase()) {
-    case 'current':
-    case 'active':
-      return 'for-sale'
-    case 'leased':
-      return 'leased'
-    case 'for rent':
-    case 'for-rent':
-    case 'forrent':
-      return 'for-rent'
-    default:
-      return 'sold'
+function toTitleCase(s: string): string {
+  return s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+}
+
+// ---- homes.co.nz ----
+
+interface HomesCard {
+  id: string
+  state: number // 0 = active/for-sale
+  display_price: string
+  price: number | null
+  date: string
+  property_details: {
+    street: string
+    suburb: string
+    city: string
+    num_bedrooms: number | null
+    num_bathrooms: number | null
+    num_car_spaces: number | null
+    listing_images: string[]
+    headline: string
   }
 }
 
-function mapRmaListing(r: RmaListingModel): Listing {
-  const { price, priceDisplay } = parsePrice(r.Price)
-  const street = r.StreetAddress ?? ''
-  const suburb = r.Suburb ?? ''
-  const today = new Date().toISOString().split('T')[0]
-  const resultDate = r.ResultDate ? r.ResultDate.split('T')[0] : null
-  const status = mapStatus(r.Status)
-  const isActive = status === 'for-sale' || status === 'for-rent'
+function mapHomesListing(card: HomesCard): Listing {
+  const pd = card.property_details
+  const street = pd.street ?? ''
+  const suburb = pd.suburb ?? ''
+  const status: Listing['status'] = card.state === 0 ? 'for-sale' : 'sold'
+  const listedAt = card.date ? card.date.split('T')[0] : new Date().toISOString().split('T')[0]
 
-  const images = (r.Images ?? [])
-    .filter((img) => img.Url)
-    .sort((a, b) => a.Order - b.Order)
-    .slice(0, 6)
-    .map((img) => img.Url as string)
-
-  const inspections: Listing['inspections'] = r.AuctionDate
-    ? [{ date: r.AuctionDate.split('T')[0], time: 'Auction' }]
-    : []
+  const priceDisplay = card.display_price?.trim() || 'Price on application'
+  const priceMatch = priceDisplay.match(/\$\s*([\d,]+)/) ?? priceDisplay.match(/^([\d,]{4,})/)
+  const price = priceMatch ? parseInt(priceMatch[1].replace(/,/g, ''), 10) : null
 
   return {
-    id: r.CampaignCode ?? generateSlug(street, suburb),
+    id: card.id,
     slug: generateSlug(street, suburb),
-    address: { street, suburb, city: 'Wellington', postcode: r.Postcode ?? '' },
+    address: {
+      street: toTitleCase(street),
+      suburb: toTitleCase(suburb),
+      city: toTitleCase(pd.city ?? 'Wellington'),
+      postcode: '',
+    },
     status,
     price,
     priceDisplay,
-    bedrooms: r.Bedrooms,
-    bathrooms: r.Bathrooms,
-    carSpaces: r.Carparks,
-    images,
-    description: r.Description ?? '',
-    inspections,
-    listedAt: resultDate ?? today,
-    ...(isActive ? {} : { soldAt: resultDate ?? today }),
+    bedrooms: pd.num_bedrooms ?? 0,
+    bathrooms: pd.num_bathrooms ?? 0,
+    carSpaces: pd.num_car_spaces ?? 0,
+    images: (pd.listing_images ?? []).slice(0, 6),
+    description: pd.headline ?? '',
+    inspections: [],
+    listedAt,
   }
 }
 
-export async function getRmaListings(): Promise<Listing[]> {
-  if (!process.env.RATEMYAGENT_CLIENT_ID) return []
+export async function getHomesListings(): Promise<Listing[]> {
   try {
-    const token = await getRmaToken()
-    const PAGE_SIZE = 100
-    let skip = 0
-    const all: RmaListingModel[] = []
-
-    while (true) {
-      const url = new URL(`${API_BASE}/agent/${AGENT_CODE}/sales/listings`)
-      url.searchParams.set('skip', String(skip))
-      url.searchParams.set('take', String(PAGE_SIZE))
-      const res = await fetch(url.toString(), {
-        headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 21600 },
-      })
-      if (!res.ok) return []
-      const data = await res.json()
-      const results: RmaListingModel[] = data.Results ?? []
-      all.push(...results)
-      if (all.length >= data.Total || results.length < PAGE_SIZE) break
-      skip += PAGE_SIZE
-    }
-
-    return all.map(mapRmaListing)
+    const res = await fetch(
+      `https://gateway.homes.co.nz/agents/${HOMES_AGENT_ID}/listings`,
+      { next: { revalidate: 21600 } }
+    )
+    if (!res.ok) return []
+    const data = await res.json()
+    const cards: HomesCard[] = data.cards ?? []
+    return cards.map(mapHomesListing)
   } catch {
     return []
   }
@@ -148,7 +110,6 @@ export async function getSanityListings(): Promise<Listing[]> {
       bathrooms: (doc.bathrooms as number) ?? 0,
       carSpaces: (doc.carSpaces as number) ?? 0,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       images: (doc.images ?? []).map((img: any) =>
         builder.image(img).width(1280).format('webp').url()
       ),
@@ -167,9 +128,12 @@ export async function getSanityListings(): Promise<Listing[]> {
 }
 
 export async function getListings(): Promise<Listing[]> {
-  const rma = await getRmaListings()
-  const listings = rma.length > 0 ? rma : await getSanityListings()
+  const homes = await getHomesListings()
+  if (homes.length > 0) return sortListings(homes)
+  return sortListings(await getSanityListings())
+}
 
+function sortListings(listings: Listing[]): Listing[] {
   return listings.sort((a, b) => {
     const priority = (s: Listing['status']) =>
       s === 'for-sale' || s === 'for-rent' ? 0 : 1

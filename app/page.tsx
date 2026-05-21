@@ -1,15 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { getReviewAggregate } from '@/lib/reviews'
 import { MOCK_LISTINGS, MOCK_SUBURB_STATS } from '@/lib/mockData'
-import { ReviewSummaryBar } from '@/components/reviews/ReviewSummaryBar'
 import { ListingCard } from '@/components/listings/ListingCard'
 import { MarketInsightsStrip } from '@/components/market/MarketInsightsStrip'
 
 export const revalidate = 21600
 
 export default async function Home() {
-  const aggregate = await getReviewAggregate()
   const featuredListings = MOCK_LISTINGS.slice(0, 3)
   const stripStats = MOCK_SUBURB_STATS.slice(0, 6)
 
@@ -60,15 +57,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Review summary bar */}
-      {aggregate && (
-        <section className="bg-white border-b border-gray-100">
-          <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
-            <ReviewSummaryBar aggregate={aggregate} />
-          </div>
-        </section>
-      )}
 
       {/* Listings teaser */}
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">

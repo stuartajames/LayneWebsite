@@ -22,19 +22,15 @@ export interface Listing {
 
 export interface Review {
   id: string
-  source: 'ratemyagent' | 'sanity-testimonial'
+  source: 's3' | 'sanity-testimonial'
   author: string
   rating: number // 1–5
   body: string
   date: string
-  isRecommended?: boolean
+  reviewType?: string
   reviewUrl?: string
-}
-
-export interface ReviewAggregate {
-  overallStars: number
-  reviewCount: number
-  profileUrl: string
+  imageUrl?: string
+  isRecommended?: boolean
 }
 
 export interface SuburbStat {
