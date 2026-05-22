@@ -9,7 +9,6 @@ export function ReviewCard({ review }: Props) {
 
   return (
     <article className="flex flex-col rounded-lg bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
-      <p>{review.imageUrl}</p>
       {review.imageUrl && !review.imageUrl.includes("placeholder") && (
         <div className="relative h-48 w-full">
           <Image

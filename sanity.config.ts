@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'layne-hughes-real-estate',
   title: 'Layne Hughes Real Estate',
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
+  projectId: 'hw0zvsfo',
+  dataset: 'production',
 
   plugins: [
     structureTool({

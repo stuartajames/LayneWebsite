@@ -1,4 +1,4 @@
-import type { Listing, SuburbStat } from '@/types'
+import type { Listing } from '@/types'
 
 export const MOCK_LISTINGS: Listing[] = [
   {
@@ -71,17 +71,3 @@ export const MOCK_LISTINGS: Listing[] = [
   },
 ]
 
-export const MOCK_SUBURB_STATS: SuburbStat[] = [
-  { suburb: 'Broadmeadows',   medianSalePrice: 710000, medianDaysOnMarket: 38, salesVolume: 8,  yearOnYearChange: -2.1, updatedAt: '2026-03-31' },
-  { suburb: 'Churton Park',   medianSalePrice: 825000, medianDaysOnMarket: 32, salesVolume: 18, yearOnYearChange:  1.4, updatedAt: '2026-03-31' },
-  { suburb: 'Glenside',       medianSalePrice: 760000, medianDaysOnMarket: 35, salesVolume: 6,  yearOnYearChange: -0.8, updatedAt: '2026-03-31' },
-  { suburb: 'Grenada North',  medianSalePrice: 745000, medianDaysOnMarket: 40, salesVolume: 10, yearOnYearChange:  0.5, updatedAt: '2026-03-31' },
-  { suburb: 'Grenada Village', medianSalePrice: 720000, medianDaysOnMarket: 42, salesVolume: 7, yearOnYearChange: -1.2, updatedAt: '2026-03-31' },
-  { suburb: 'Johnsonville',   medianSalePrice: 780000, medianDaysOnMarket: 30, salesVolume: 24, yearOnYearChange:  2.3, updatedAt: '2026-03-31' },
-  { suburb: 'Khandallah',     medianSalePrice: 920000, medianDaysOnMarket: 28, salesVolume: 14, yearOnYearChange:  3.1, updatedAt: '2026-03-31' },
-  { suburb: 'Newlands',       medianSalePrice: 755000, medianDaysOnMarket: 34, salesVolume: 20, yearOnYearChange:  0.9, updatedAt: '2026-03-31' },
-  { suburb: 'Ngaio',          medianSalePrice: 895000, medianDaysOnMarket: 29, salesVolume: 12, yearOnYearChange:  2.7, updatedAt: '2026-03-31' },
-  { suburb: 'Raroa',          medianSalePrice: 870000, medianDaysOnMarket: 31, salesVolume: 9,  yearOnYearChange:  1.8, updatedAt: '2026-03-31' },
-  { suburb: 'Tawa',           medianSalePrice: 720000, medianDaysOnMarket: 36, salesVolume: 28, yearOnYearChange: -0.4, updatedAt: '2026-03-31' },
-  { suburb: 'Wadestown',      medianSalePrice: 1050000, medianDaysOnMarket: 26, salesVolume: 8, yearOnYearChange:  4.2, updatedAt: '2026-03-31' },
-]

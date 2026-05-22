@@ -33,14 +33,6 @@ export interface Review {
   isRecommended?: boolean
 }
 
-export interface SuburbStat {
-  suburb: string
-  medianSalePrice: number
-  medianDaysOnMarket: number
-  salesVolume: number      // quarterly — from REINZ monthly reports
-  yearOnYearChange: number // percentage
-  updatedAt: string        // displayed so users can see data freshness
-}
 
 export interface AgentProfile {
   name: string

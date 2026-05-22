@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -17,11 +18,15 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-type Props = {
-  subject?: string
+const ENQUIRY_LABELS: Record<string, string> = {
+  appraisal: 'Free appraisal',
+  viewing: 'Book a viewing',
+  general: 'General enquiry',
 }
 
-export function ContactForm({ subject }: Props) {
+export function ContactForm() {
+  const searchParams = useSearchParams()
+  const subject = searchParams.get('subject') ?? undefined
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
   const {
@@ -39,10 +44,20 @@ export function ContactForm({ subject }: Props) {
   async function onSubmit(data: FormData) {
     setStatus('submitting')
     try {
-      const res = await fetch('/api/contact', {
+      const payload = {
+        access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+        subject: `${ENQUIRY_LABELS[data.enquiryType]} — ${data.name}`,
+        from_name: data.name,
+        email: data.email,
+        phone: data.phone ?? '',
+        enquiry_type: ENQUIRY_LABELS[data.enquiryType],
+        property: subject ?? '',
+        message: data.message,
+      }
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, subject }),
+        body: JSON.stringify(payload),
       })
       if (!res.ok) throw new Error()
       setStatus('success')

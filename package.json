@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "scrape:chrome": "open -a 'Google Chrome' --args --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-debug",
+    "scrape:reviews": "node scripts/scrape-reviews.mjs --output reviews.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -17,8 +19,8 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.74.0",
-    "resend": "^6.12.2",
     "sanity": "^5.22.0",
+    "styled-components": "^6.4.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {

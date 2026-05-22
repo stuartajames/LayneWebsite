@@ -1,0 +1,10 @@
+:HL["/_next/static/chunks/0.cuq0t7j72i2.css","style"]
+:HL["/_next/static/media/797e433ab948586e-s.p.09zddjkbdep5a.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["https://s3-ap-southeast-2.amazonaws.com/homes-listing-images/9668215220335186133","image"]
+:HL["https://s3-ap-southeast-2.amazonaws.com/homes-listing-images/726641347359598150","image"]
+:HL["https://s3-ap-southeast-2.amazonaws.com/homes-listing-images/5817960725165029861","image"]
+:HL["https://s3-ap-southeast-2.amazonaws.com/homes-listing-images/14259960365130482437","image"]
+:HL["https://s3-ap-southeast-2.amazonaws.com/homes-listing-images/4165992109241781853","image"]
+:HL["https://s3-ap-southeast-2.amazonaws.com/homes-listing-images/5336387348863256069","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"listings","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"fraser-avenue-johnsonville","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"lD6epGO7xZ2PUywgZNd5O"}

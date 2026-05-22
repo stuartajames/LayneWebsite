@@ -60,6 +60,31 @@ async function scrapeAllReviews() {
     while (true) {
       console.log(`  Scraping page ${pageNum}...`)
 
+      // Scroll slowly to trigger Angular lazy-loading on all images
+      await page.evaluate(async () => {
+        await new Promise(resolve => {
+          let pos = 0
+          const interval = setInterval(() => {
+            pos += 200
+            window.scrollTo(0, pos)
+            if (pos >= document.body.scrollHeight) {
+              clearInterval(interval)
+              window.scrollTo(0, 0)
+              resolve()
+            }
+          }, 80)
+        })
+      })
+      // Wait until all placeholder images are replaced, or 20s timeout (accept whatever loaded)
+      await page.waitForFunction(
+        () => {
+          const imgs = [...document.querySelectorAll('article img:not([aria-hidden])')]
+          return imgs.length > 0 && imgs.every(img => !img.src.includes('placeholder'))
+        },
+        { timeout: 20_000 }
+      ).catch(() => console.log('  Image timeout reached — proceeding with whatever loaded.'))
+      await page.waitForTimeout(300)
+
       const reviews = await page.evaluate(() => {
         const selectorSets = [
           '[data-testid="review-card"]',
@@ -93,8 +118,8 @@ async function scrapeAllReviews() {
           // Review URL — for reference
           const reviewUrl = linkEl?.getAttribute('href') ?? ''
 
-          // Reviewer names are not shown on this page
-          const author = 'Anonymous'
+          // Reviewer names aren't shown; use the review title if present
+          const author = card.querySelector('.font-bold')?.textContent?.trim() || 'Anonymous'
 
           // Review type (Seller/Buyer)
           const reviewType = card.querySelector('.absolute.right-4')?.textContent?.trim() ?? ''

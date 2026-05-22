@@ -1,14 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { MOCK_LISTINGS, MOCK_SUBURB_STATS } from '@/lib/mockData'
+import { MOCK_LISTINGS } from '@/lib/mockData'
 import { ListingCard } from '@/components/listings/ListingCard'
-import { MarketInsightsStrip } from '@/components/market/MarketInsightsStrip'
 
 export const revalidate = 21600
 
 export default async function Home() {
   const featuredListings = MOCK_LISTINGS.slice(0, 3)
-  const stripStats = MOCK_SUBURB_STATS.slice(0, 6)
 
   return (
     <div className="flex flex-col">
@@ -73,13 +71,6 @@ export default async function Home() {
           {featuredListings.map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}
-        </div>
-      </section>
-
-      {/* Market insights strip */}
-      <section className="bg-brand-bg">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <MarketInsightsStrip stats={stripStats} />
         </div>
       </section>
 
