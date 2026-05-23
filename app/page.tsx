@@ -1,13 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { MOCK_LISTINGS } from '@/lib/mockData'
-import { ListingCard } from '@/components/listings/ListingCard'
+import { FeaturedListings } from '@/components/listings/FeaturedListings'
 
-export const revalidate = 21600
-
-export default async function Home() {
-  const featuredListings = MOCK_LISTINGS.slice(0, 3)
-
+export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
@@ -67,11 +62,7 @@ export default async function Home() {
             All listings →
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredListings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
+        <FeaturedListings />
       </section>
 
       {/* CTA banner */}

@@ -1,12 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Listing } from '@/types'
+import { fetchHomesListings } from '@/lib/homes-client'
 import { ListingCard } from './ListingCard'
 
-type Props = { listings: Listing[] }
+export function ListingGrid() {
+  const [listings, setListings] = useState<Listing[]>([])
+  const [loading, setLoading] = useState(true)
 
-export function ListingGrid({ listings }: Props) {
+  useEffect(() => {
+    fetchHomesListings()
+      .then(setListings)
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-64 rounded-xl bg-gray-100 animate-pulse" />
+        ))}
+      </div>
+    )
+  }
+
   const forSale = listings.filter((l) => l.status === 'for-sale' || l.status === 'for-rent')
   const sold = listings.filter((l) => l.status === 'sold' || l.status === 'leased')
 
@@ -15,15 +33,21 @@ export function ListingGrid({ listings }: Props) {
     ...(sold.length > 0 ? [{ id: 'sold', label: 'Recently Sold', items: sold }] : []),
   ]
 
-  const defaultTab = forSale.length > 0 ? 'for-sale' : 'sold'
-  const [active, setActive] = useState(defaultTab)
-
   if (tabs.length === 0) {
     return (
       <p className="py-12 text-center text-gray-500">No listings at the moment — check back soon.</p>
     )
   }
 
+  return <ListingTabs tabs={tabs} />
+}
+
+function ListingTabs({
+  tabs,
+}: {
+  tabs: { id: string; label: string; items: Listing[] }[]
+}) {
+  const [active, setActive] = useState(tabs[0].id)
   const current = tabs.find((t) => t.id === active) ?? tabs[0]
 
   return (
