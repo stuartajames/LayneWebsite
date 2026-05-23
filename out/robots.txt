@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://laynehughes.co.nz/sitemap.xml
