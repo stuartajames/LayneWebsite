@@ -1,6 +1,0 @@
-1:"$Sreact.fragment"
-2:I[26448,["/_next/static/chunks/0y2k00clsxbs6.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0y9e565_~i~gr.js"],"ReviewFeed"]
-3:I[97367,["/_next/static/chunks/0y2k00clsxbs6.js","/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
-4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"className":"mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 lg:px-8","children":[["$","h1",null,{"className":"mb-2 text-3xl font-bold text-brand-dark","children":"Client Reviews"}],["$","p",null,{"className":"mb-8 text-gray-500","children":"What Layne's clients say about buying and selling in Wellington's northern suburbs."}],["$","$L2",null,{"reviews":[]}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/0y9e565_~i~gr.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"Cm3PC-mDoqtlq6o7yZdjq"}
-5:null
