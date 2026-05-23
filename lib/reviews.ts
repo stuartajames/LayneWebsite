@@ -19,7 +19,7 @@ export async function getReviews(
   take = 100,
 ): Promise<{ reviews: Review[]; total: number } | null> {
   try {
-    const res = await fetch(S3_URL, { cache: "no-store" });
+    const res = await fetch(S3_URL, { cache: "force-cache" });
     if (!res.ok) return null;
     const rawJson = await res.json();
     const all: S3Review[] = rawJson;
