@@ -41,7 +41,7 @@
 
 ### 1.5 — CloudFront: Dev Distribution
 
-- [ ] Create distribution
+- [x] Create distribution
   - Origin: `layne-website-dev.s3.ap-southeast-2.amazonaws.com`
   - Origin access: **Origin Access Control (OAC)** — create new OAC
   - Default root object: `index.html`
@@ -49,11 +49,11 @@
   - ACM certificate: select `layne.pleasesendhelp.com` cert (us-east-1)
   - HTTPS only
   - Compress: Yes
-- [ ] Add custom error responses:
+- [x] Add custom error responses:
   - 403 → `/404.html` → status 404
   - 404 → `/404.html` → status 404
-- [ ] Copy the S3 bucket policy shown after creating OAC → apply to `layne-website-dev` bucket
-- [ ] Note dev distribution ID
+- [x] Copy the S3 bucket policy shown after creating OAC → apply to `layne-website-dev` bucket
+- [x] Note dev distribution ID
 
 ### 1.6 — CloudFront: Prod Distribution
 
@@ -89,14 +89,14 @@ Both domains are managed via Cloudflare DNS. Cloudflare supports CNAME flattenin
 
 Add at: repository Settings → Secrets and variables → Actions → New repository secret
 
-- [ ] `AWS_ACCOUNT_ID`
-- [ ] `DEV_S3_BUCKET` = `layne-website-dev`
-- [ ] `DEV_CF_DISTRIBUTION_ID`
+- [x] `AWS_ACCOUNT_ID`
+- [x] `DEV_S3_BUCKET` = `layne-website-dev`
+- [x] `DEV_CF_DISTRIBUTION_ID`
 - [ ] `PROD_S3_BUCKET` = `layne-website-prod`
 - [ ] `PROD_CF_DISTRIBUTION_ID`
-- [ ] `NEXT_PUBLIC_WEB3FORMS_KEY`
-- [ ] `NEXT_PUBLIC_SANITY_PROJECT_ID` = `hw0zvsfo`
-- [ ] `NEXT_PUBLIC_SANITY_DATASET` = `production`
+- [x] `NEXT_PUBLIC_WEB3FORMS_KEY`
+- [x] `NEXT_PUBLIC_SANITY_PROJECT_ID` = `hw0zvsfo`
+- [x] `NEXT_PUBLIC_SANITY_DATASET` = `production`
 
 ### 2.2 — Production Environment (optional but recommended)
 
@@ -106,8 +106,8 @@ Add at: repository Settings → Secrets and variables → Actions → New reposi
 
 ### 2.3 — Create Workflow Files
 
-- [ ] Create `.github/workflows/deploy-dev.yml` (auto on push to main)
-- [ ] Create `.github/workflows/deploy-prod.yml` (manual workflow_dispatch)
+- [x] Create `.github/workflows/deploy-dev.yml` (auto on push to main)
+- [x] Create `.github/workflows/deploy-prod.yml` (manual workflow_dispatch)
 - [ ] Commit and push both files
 
 ---
