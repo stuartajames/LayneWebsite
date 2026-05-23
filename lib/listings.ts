@@ -1,5 +1,7 @@
 import type { Listing } from '@/types'
-import { HOMES_URL, mapHomesListing, sortListings, HomesCard } from './homes-client'
+import { HOMES_AGENT_ID, mapHomesListing, sortListings, HomesCard } from './homes-client'
+
+const HOMES_DIRECT_URL = `https://gateway.homes.co.nz/agents/${HOMES_AGENT_ID}/listings`
 import imageUrlBuilder from '@sanity/image-url'
 import { sanityClient } from './sanity'
 
@@ -7,7 +9,7 @@ const builder = imageUrlBuilder(sanityClient)
 
 export async function getHomesListings(): Promise<Listing[]> {
   try {
-    const res = await fetch(HOMES_URL, { next: { revalidate: 21600 } })
+    const res = await fetch(HOMES_DIRECT_URL, { next: { revalidate: 21600 } })
     if (!res.ok) return []
     const data = await res.json()
     const cards: HomesCard[] = data.cards ?? []

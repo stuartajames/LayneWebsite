@@ -21,6 +21,16 @@ jobs:
 
       - run: npm ci
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::660621845114:role/layne-github-actions
+          aws-region: ap-southeast-2
+          audience: sts.amazonaws.com
+
+      - name: Snapshot listings to S3
+        run: node scripts/fetch-listings.mjs
+
       - name: Build
         run: npm run build
         env:
@@ -28,13 +38,6 @@ jobs:
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           NEXT_PUBLIC_SITE_URL: https://laynehughes.co.nz
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::660621845114:role/layne-github-actions
-          aws-region: ap-southeast-2
-          audience: sts.amazonaws.com
 
       - name: Upload to S3
         run: aws s3 sync out/ s3://${{ secrets.PROD_S3_BUCKET }} --delete

@@ -1,7 +1,7 @@
 import type { Listing } from '@/types'
 
 export const HOMES_AGENT_ID = '9680e0f5-4902-4c9b-a5fc-6f59511c85b6'
-export const HOMES_URL = `https://gateway.homes.co.nz/agents/${HOMES_AGENT_ID}/listings`
+export const HOMES_URL = 'https://layne-website-reviews.s3.ap-southeast-2.amazonaws.com/listings.json'
 
 export interface HomesCard {
   id: string
@@ -79,7 +79,6 @@ export function sortListings(listings: Listing[]): Listing[] {
 export async function fetchHomesListings(): Promise<Listing[]> {
   const res = await fetch(HOMES_URL)
   if (!res.ok) return []
-  const data = await res.json()
-  const cards: HomesCard[] = data.cards ?? []
+  const cards: HomesCard[] = await res.json()
   return sortListings(cards.map(mapHomesListing))
 }
